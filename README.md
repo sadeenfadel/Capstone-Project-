@@ -62,7 +62,7 @@ Users, Bouquets, Orders, Customizations, Reviews, Cart, Payments, Categories, an
 _(Add your ERD image here if available)_
 
 ```md
-![ERD Diagram](img/Erd.png)
+![ERD Diagram](./img/Erd.png)
 ```
 
 ## 5. User Stories / Features
