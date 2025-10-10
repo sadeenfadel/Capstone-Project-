@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Waseem Flower Shop{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- 🌷 Navbar -->
+    <header class="navbar">
+      <div class="logo">Waseem Flower Shop 🌸</div>
+      <button class="menu-toggle">☰</button>
+      <nav class="nav-links">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="">Shop</a></li>
+          <li><a href="" class="login-btn">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- 🌼 Main Content -->
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- 🌸 Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>© 2025 Waseem Flower Shop. All Rights Reserved.</p>
+        <p>Follow us:
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </p>
+      </div>
+    </footer>
+
+
+
+      <script>
+  const menuBtn = document.querySelector(".menu-toggle");
+  const navLinks = document.querySelector(".nav-links");
+
+  menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+</script>
+  </body>
+
+
+
+</html>
+
