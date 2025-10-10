@@ -26,7 +26,7 @@
 .about-text h2 {
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
-  color: #e91e63; /* أخضر زيتي للعنوان */
+  color: #e91e63; 
   margin-bottom: 20px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .about-text .btn {
-  background-color: #e91e63; /* وردي */
+  background-color: #e91e63; 
   color: #fff;
   padding: 12px 25px;
   border-radius: 25px;
@@ -47,9 +47,6 @@
   transition: 0.3s;
 }
 
-.about-text .btn:hover {
-  background-color: #6b8e23; /* أخضر زيتي عند hover */
-}
 
 /* RESPONSIVE */
 @media (max-width: 992px) {
