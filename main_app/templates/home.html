@@ -6,9 +6,16 @@
 {% block content %}
   <section class="hero">
     <div class="overlay">
-      <h1>Welcome to Blossom Boutique 🌹</h1>
+       {% if user.is_authenticated %}
+      <h1>Welcome to Blossom Boutique  {{user.username}}🌹</h1>
       <p>Where flowers speak louder than words</p>
       <a href="" class="btn">Shop Now</a>
+      {% else %}
+      <h1>Welcome to Blossom Boutique  🌹</h1>
+      <p>Where flowers speak louder than words</p>
+      <a href="{% url 'signup' %}" class="btn">Get Started</a>
+      
+      {% endif %}
     </div>
   </section>
 {% endblock %}

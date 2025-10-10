@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Waseem Flower Shop{% endblock %}</title>
+    <title>{% block title %}Flower Shop{% endblock %}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
@@ -17,15 +17,22 @@
   <body>
     <!--  Navbar -->
     <header class="navbar">
-      <div class="logo">Waseem Flower Shop 🌸</div>
+      <div class="logo">Blossom Boutique  🌸</div>
       <button class="menu-toggle">☰</button>
       <nav class="nav-links">
         <ul>
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
           <li><a href="{% url 'contact' %}">Contact</a></li>
-          <li><a href="">Shop</a></li>
-          <li><a href="" class="login-btn">Login</a></li>
+                   
+      {% if user.is_authenticated %}
+          
+          <li><a href="">Bouquets</a></li>      
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+      
+      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+    {% endif %}
         </ul>
       </nav>
     </header>
@@ -39,7 +46,7 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
-        <p>© 2025 Waseem Flower Shop. All Rights Reserved.</p>
+        <p>© 2025 Blossom Boutique . All Rights Reserved.</p>
         <p>Follow us:
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-facebook"></i></a>

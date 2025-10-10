@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% load static %}
+{% block title %}Login{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+{% block content %}
+<section class="auth-section">
+  <h2>Login 💐</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Login</button>
+  </form>
+</section>
+{% endblock %}
