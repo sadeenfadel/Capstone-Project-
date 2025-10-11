@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="cat-container">
+  <div class="cat-img">
+    <img src=" {{detail.image.url}} " alt="A skater boy cat" />
+  </div>
+  <div class="cat-details">
+    <h1>{{ detail.name }}</h1>
+    
+  </div>
+</section>
+{% endblock %}

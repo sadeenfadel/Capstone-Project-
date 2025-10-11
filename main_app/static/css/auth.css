@@ -1,24 +1,134 @@
+/* ✨ General section styling */
 .auth-section {
-  text-align: center;
-  padding: 70px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
   background-color: #fff8f9;
+  padding: 40px 20px;
 }
 
-.auth-section h2 {
+/* 🌸 Card container */
+.auth-card {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(73, 101, 76, 0.15);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* 🌿 Headings */
+.auth-card h2 {
   color: #49654c;
   font-family: 'Playfair Display', serif;
+  margin-bottom: 10px;
 }
 
-.auth-section form {
+.auth-card .subtitle {
+  color: #777;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+/* 🌼 Form styling */
+.auth-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
 }
 
-.auth-section input {
-  width: 60%;
-  padding: 10px;
+.auth-form p {
+  width: 100%;
+  margin: 0;
+}
+
+.auth-form label {
+  display: block;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #49654c;
+  margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
   border: 1px solid #d4e1d4;
   border-radius: 10px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: 0.3s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #49654c;
+  box-shadow: 0 0 5px rgba(73, 101, 76, 0.3);
+}
+
+/* 🌺 Buttons */
+.submit {
+  background-color: #49654c;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.submit:hover {
+  background-color: #638b67;
+}
+
+/* 💌 Links */
+.auth-links {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.auth-links a {
+  color: #e75480;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}
+
+/* 📱 Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 30px 25px;
+  }
+
+  .auth-form input {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    max-width: 90%;
+    padding: 25px 20px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
 }

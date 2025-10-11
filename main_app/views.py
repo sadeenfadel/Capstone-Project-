@@ -2,6 +2,8 @@ from django.shortcuts import render , redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from .models import Flower, Bouquet
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -44,3 +46,14 @@ def logout_view(request):
     logout(request)
     messages.info(request, 'You have logged out 🌿')
     return redirect('home')
+
+
+
+def bouquet_list(request):
+    bouquets = Bouquet.objects.all()  
+    return render(request, 'buoquet/bouquet_list.html', {'bouquets': bouquets})
+
+def bouquet_details(request, pk):
+    detail = Bouquet.objects.get(id=pk)
+    return render(request, 'buoquet/bouquet_details.html', {'detail': detail})
+

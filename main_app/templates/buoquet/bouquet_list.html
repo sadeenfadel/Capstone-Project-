@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bouquets{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/bouquet.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Our Bouquets 🌸</h2>
+
+<div class="bouquet-container">
+  {% for bouquet in bouquets %}
+   <a href="/details/{{ bouquet.id }}">
+     <div class="bouquet-card">
+    
+      <img src="{{ bouquet.image.url }}" alt="{{ bouquet.name }}" class="bouquet-main-img"/>
+      <h3 class="bouquet-name">{{ bouquet.name }}</h3>
+      <p class="bouquet-price">Total: ${{ bouquet.total_price }}</p>
+      <ul class="flower-list">
+        {% for bf in bouquet.bouquetflower_set.all %}
+          <li>
+            {% if bf.flower.image %}
+              <img src="{{ bf.flower.image.url }}" alt="{{ bf.flower.name }}" class="flower-thumb"/>
+            {% endif %}
+            {{ bf.quantity }} x {{ bf.flower.name }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div></a>
+  {% empty %}
+    <p>No bouquets available yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
