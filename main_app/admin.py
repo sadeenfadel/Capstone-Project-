@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Flower, Bouquet, BouquetFlower
+from .models import Flower, Bouquet, BouquetFlower , Profile
 
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'bio')
+    
 # Inline لربط BouquetFlower مع Bouquet
 class BouquetFlowerInline(admin.TabularInline):
     model = BouquetFlower
@@ -13,14 +17,14 @@ class BouquetAdmin(admin.ModelAdmin):
     inlines = [BouquetFlowerInline]
     list_display = ('name', 'user', 'total_price')
 
-    # عرض الباقات حسب المستخدم العادي أو الكل للـ superuser
+  
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(user=request.user)
 
-    # التحكم في صلاحيات التعديل والحذف
+    
     def has_change_permission(self, request, obj=None):
         if obj and not request.user.is_superuser:
             return obj.user == request.user

@@ -12,6 +12,7 @@ urlpatterns = [
      path('logout/', views.logout_view, name='logout'),
      path('bouquets/', views. bouquet_list, name='bouquet_list'),
       path('details/<int:pk>/', views. bouquet_details, name='bouquet_detail'),
+      path('profile/', views. profile_view, name='profile'),
 ]
 
 if settings.DEBUG:
