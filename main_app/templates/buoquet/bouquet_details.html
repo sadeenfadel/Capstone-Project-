@@ -1,14 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}{{ detail.name }} Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/details.css' %}">
+{% endblock %}
+
 {% block content %}
-<section class="cat-container">
-  <div class="cat-img">
-    <img src=" {{detail.image.url}} " alt="A skater boy cat" />
+<section class="details-container">
+  <div class="details-img">
+    <img src="{{ detail.image.url }}" alt="{{ detail.name }}">
   </div>
-  <div class="cat-details">
+  <div class="details-info">
     <h1>{{ detail.name }}</h1>
-    
+    <p class="details-price">💐 Total: ${{ detail.total_price }}</p>
+   
+    <h3>Included Flowers:</h3>
+    <ul class="flower-list-detail">
+      {% for bf in detail.bouquetflower_set.all %}
+        <li>
+          {% if bf.flower.image %}
+            <img src="{{ bf.flower.image.url }}" alt="{{ bf.flower.name }}" class="flower-thumb">
+          {% endif %}
+          {{ bf.quantity }} × {{ bf.flower.name }}
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="" class="see-details-btn">Order Now</a>
+
   </div>
 </section>
 {% endblock %}

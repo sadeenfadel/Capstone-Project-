@@ -2,7 +2,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #d9534f; /* وردي فاتح */
+    color: #d9534f;
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -14,13 +14,13 @@
 }
 
 .bouquet-card {
+    position: relative;
     background-color: #fff8f0;
     border-radius: 15px;
     box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    padding: 1rem;
+    overflow: hidden;
     width: 280px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-align: center;
+    transition: transform 0.3s ease;
 }
 
 .bouquet-card:hover {
@@ -28,43 +28,64 @@
     box-shadow: 0 12px 20px rgba(0,0,0,0.2);
 }
 
+.img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+}
+
 .bouquet-main-img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
 }
 
-.bouquet-name {
-    font-size: 1.5rem;
-    margin: 1rem 0 0.5rem;
+.img-wrapper:hover .bouquet-main-img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(230, 224, 224, 0.795);
+    color: #333;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0 0 15px 15px;
+}
+
+.img-wrapper:hover .overlay {
+    transform: translateY(0);
+}
+
+.overlay h3 {
     color: #c9302c;
+    margin-bottom: 0.3rem;
 }
 
-.bouquet-price {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+.overlay p {
     font-weight: bold;
-}
-
-.flower-list {
-    list-style: none;
-    padding: 0;
-}
-
-.flower-list li {
-    display: flex;
-    align-items: center;
     margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    color: #555;
 }
 
-.flower-thumb {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-    border: 1px solid #ddd;
+.see-details-btn {
+    display: inline-block;
+    background-color: #c9302c;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.see-details-btn:hover {
+    background-color: #d9534f;
 }
