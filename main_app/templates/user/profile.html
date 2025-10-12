@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="profile-container">
-  <h2>{{ user.username }}'s Profile</h2>
-  <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="profile-img-large">
-<p>Bio: {{ user.profile.bio }}</p>
+  <div class="profile-card">
+    <div class="profile-image">
+      <img src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+    </div>
 
-  <!-- أضف أي تفاصيل إضافية هنا -->
+    <div class="profile-info">
+      <h2>{{ user.username }}</h2>
+      <p class="bio">{{ user.profile.bio|default:"No bio available 🌸" }}</p>
+
+      <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
-
-<style>
-.profile-img-large {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #c9302c;
-    object-fit: cover;
-}
-.profile-container {
-    text-align: center;
-    padding: 2rem;
-}
-</style>

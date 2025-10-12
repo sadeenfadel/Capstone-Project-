@@ -16,30 +16,28 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
-
+# undertanding every part of this :) 
 def signup_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST':     # the user sent his data 
         form = SignUpForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save()
-            # الصورة والبايو من الفورم
-            image = form.cleaned_data.get('image')
-            bio = form.cleaned_data.get('bio')
+        if form.is_valid():        # everything is ok with data 
+            user = form.save()     # saving the user to the database  with his User info // here the signal will create the profile automatically
+            image = form.cleaned_data.get('image')   # get the image and bio from the form 
+            bio = form.cleaned_data.get('bio')       # cleaned_data is dictionary of all the fields in the form we cant call this before is_valid()
 
-            # نحدث البروفايل اللي انعمل تلقائيًا
-            profile = user.profile  
-            if image:
-                profile.image = image
-            if bio:
-                profile.bio = bio
-            profile.save()
+            profile = user.profile      # get the profile related to this user
+            if image:                   # if the user uploaded an image
+                profile.image = image   # set the profile image to the uploaded image
+            if bio:                     # if the user wrote a bio
+                profile.bio = bio       # set the profile bio to the written bio
+            profile.save()              # save the profile to the database
 
-            login(request, user)
-            messages.success(request, f'Welcome {user.username}! 🌸')
+            login(request, user)        # log the user in  no need to enter his data again in login form  (user is the user object that we just created)
+            messages.success(request, f'Welcome {user.username}! 🌸')     
             return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    else:     # the user is visiting the page
+        form = SignUpForm()     
+    return render(request, 'registration/signup.html', {'form': form})   # render the form in the template with the context 
 
 
 def login_view(request):
@@ -72,7 +70,6 @@ def bouquet_details(request, pk):
 
 @login_required
 def profile_view(request):
-    
     return render(request, 'user/profile.html', {'user':request.user})
 
     

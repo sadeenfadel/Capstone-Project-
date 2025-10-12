@@ -1,4 +1,4 @@
-
+/* -------------------  GENERAL STYLES  ------------------- */
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
@@ -11,7 +11,7 @@ img {
   height: auto;
 }
 
-
+/* -------------------  NAVBAR  ------------------- */
 .navbar {
   display: flex;
   justify-content: space-between; /* اللوجو على الشمال والروابط على اليمين */
@@ -49,7 +49,7 @@ img {
   color: #e91e63;
 }
 
-
+/* -------------------  MENU TOGGLE  ------------------- */
 .menu-toggle {
   display: none; 
   position: absolute;
@@ -60,10 +60,10 @@ img {
   cursor: pointer;
 }
 
+/* -------------------  HERO SECTION  ------------------- */
 .hero {
   position: relative;
   height: 100vh;
-  /* background: url("../images/home.jpg") center/cover no-repeat; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +99,7 @@ img {
   color: #555;
 }
 
-/* Buttons */
+/* -------------------  BUTTONS  ------------------- */
 .btn {
   background-color: #e91e63;
   color: white;
@@ -116,7 +116,7 @@ img {
   background-color: #c2185b;
 }
 
-/* About & Contact Sections */
+/* -------------------  ABOUT & CONTACT SECTIONS  ------------------- */
 .about, .contact {
   padding: 60px 20px;
   max-width: 700px;
@@ -131,7 +131,7 @@ img {
   margin-bottom: 15px;
 }
 
-/* Contact Form */
+/* -------------------  CONTACT FORM  ------------------- */
 form {
   display: flex;
   flex-direction: column;
@@ -146,7 +146,7 @@ form input, form textarea {
   width: 100%;
 }
 
-/* Footer */
+/* -------------------  FOOTER  ------------------- */
 footer {
   background-color: #ffe4ec;
   text-align: center;
@@ -156,9 +156,80 @@ footer {
   font-size: 0.9rem;
 }
 
-/*  RESPONSIVE DESIGN  */
+/* -------------------  PROFILE DROPDOWN  ------------------- */
 
-/*  Tablets */
+
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #e91e63;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
+}
+
+
+.dropdown-menu {
+  display: none !important; /* مخفية من البداية */
+  position: absolute;
+  right: 0;
+  top:50px;
+  background-color: #fff;
+  min-width: 140px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  flex-direction: column !important; /* إجبار الاتجاه عمودي */
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* نتأكد إنها ما تورث أي ستايل من navbar */
+.dropdown-menu ul,
+.dropdown-menu li {
+  all: unset; /* نلغي أي وراثة */
+  display: block;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 6px 12px; 
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s;
+  font-size: 0.95rem; 
+  line-height: 1.2; 
+}
+
+.dropdown-menu li a:hover {
+  background-color: #ffe4ec;
+}
+
+/* لما نضغط الصورة بنضيف كلاس show */
+.dropdown-menu.show {
+  display: flex !important;
+}
+
+/* أنيميشن ناعمة */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* -------------------  RESPONSIVE DESIGN  ------------------- */
+
+/* Tablets */
 @media (max-width: 992px) {
   .overlay h1 {
     font-size: 2.4rem;
@@ -173,29 +244,29 @@ footer {
   }
 }
 
-/* mobile Phones */
+/* Mobile Phones */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: center;
   }
 
-    .menu-toggle {
+  .menu-toggle {
     display: block;
   }
 
-.nav-links {
-  display: none;
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  background-color: #ffe4ec;
-  padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  z-index: 999; /* مهم جدًا */
-}
+  .nav-links {
+    display: none;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: #ffe4ec;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
 
   .nav-links.active {
     display: block;
@@ -234,7 +305,7 @@ footer {
   }
 }
 
-/*  Small Phones (under 480px) */
+/* Small Phones */
 @media (max-width: 480px) {
   .overlay h1 {
     font-size: 1.6rem;
@@ -248,46 +319,4 @@ footer {
     font-size: 0.85rem;
     padding: 7px 16px;
   }
-}
-.profile-dropdown {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #c9302c;
-    object-fit: cover;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #fff;
-    min-width: 120px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border-radius: 8px;
-    overflow: hidden;
-    z-index: 1000;
-}
-
-.dropdown-menu li a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    transition: background 0.2s;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #f1f1f1;
-}
-
-/* Show dropdown on hover */
-.profile-dropdown:hover .dropdown-menu {
-    display: block;
 }

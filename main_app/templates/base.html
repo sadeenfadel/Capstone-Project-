@@ -29,7 +29,7 @@
 <li><a href="{% url 'bouquet_list' %}">Bouquets</a></li>      
   <li class="profile-dropdown">
     {% if user.profile.image %}
-<img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="profile-img">
+<img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="profile-img" >    <!--- here the img is not inside the user model so access ot from profile-->
     <ul class="dropdown-menu">
       <li><a href="{% url 'profile' %}">Profile</a></li>
       <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -66,13 +66,37 @@
 
 
 
-      <script>
+  <script>
   const menuBtn = document.querySelector(".menu-toggle");
   const navLinks = document.querySelector(".nav-links");
 
   menuBtn.addEventListener("click", () => {
     navLinks.classList.toggle("active");
   });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const profileDropdown = document.querySelector('.profile-dropdown');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+
+  if (profileDropdown) {
+    profileDropdown.addEventListener('click', function(e) {
+      e.stopPropagation(); // ما يخلي الكليك يوصل للصفحة كلها
+      dropdownMenu.classList.toggle('show');
+    });
+  }
+
+  // اغلق القائمة لما يضغط المستخدم خارجها
+  document.addEventListener('click', function(e) {
+    if (!profileDropdown.contains(e.target)) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
+});
+
+
+
+
+
 </script>
   </body>
 
