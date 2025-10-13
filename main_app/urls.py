@@ -18,7 +18,9 @@ urlpatterns = [
      path('dashboard/', views.admin_dashboard, name='admin_dashboard'),
      path('create/', views.create_bouquet, name='create_bouquet'),
      path('bouquet/<int:pk>/edit/', views.edit_bouquet, name='edit_bouquet'),
-    path('bouquet/<int:pk>/delete/', views.delete_bouquet, name='delete_bouquet'),
+     path('bouquet/<int:pk>/delete/', views.delete_bouquet, name='delete_bouquet'),
+     path ('bouquet/<int:pk>/order/' , views.create_order , name = 'create_order'),
+     path ('bouquet/<int:pk>/detail/' , views. order_details , name = 'order_dtail'),
      # # path('admin/orders/', views.admin_orders, name='admin_orders'),
 ]
 

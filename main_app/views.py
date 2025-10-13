@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from .models import Flower, Bouquet, Profile, User ,  BouquetFlower
+from .models import Flower, Bouquet, Profile, User ,  BouquetFlower , Order , OrderBouquet
 from django.contrib.auth.decorators import login_required
 from .forms import SignUpForm, ProfileForm, UserForm , BouquetForm, FlowersSelectionForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -238,13 +238,41 @@ def admin_dashboard(request):
     users = User.objects.all()
     bouquets = Bouquet.objects.all()
     flowers = Flower.objects.all()
-    
+    oders = Order.objects.all()
     context = {
         'users': users,
         'bouquets': bouquets,
         'flowers': flowers,
+        'orders':oders,
     }
     return render(request, 'admin/admin_dashboard.html', context)
 
 
 
+#-------------------------order-------------------------------------
+@login_required
+def create_order(request , pk):
+    # 1 . get the bouquet with pk = pk 
+    bquet = get_object_or_404(Bouquet , pk=pk) 
+    
+    # here iam creating order so POST 
+    if request.method == 'POST' :  # the user sent the order form
+        qnt =  int(request.POST.get('quantity'))  # the quantity user inserted 
+        total_price = bquet.total_price * qnt 
+        order = Order.objects.create(user=request.user , total_price =total_price )
+        OrderBouquet.objects.create(order =order , bouquet = bquet , quantity=qnt)
+        messages.success(request, f"Your order for {bquet.name} x{qnt} has been placed! 🌸")
+        return redirect('order_dtail'  , pk = order.id)
+    return render (request , 'order/create_order.html' , {'boq' : bquet}) # here we render the page passing to it the boq details 
+
+
+@login_required
+def order_details(request, pk):
+    order = get_object_or_404(Order, pk=pk, user=request.user)   # returning the order for specific order and user
+    order_items = order.orderbouquet_set.all()  # جميع البوكيهات داخل الأوردر
+    for item in order_items:
+       item.subtotal = item.bouquet.total_price * item.quantity
+
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    return render(request, 'order/order_detail.html', {'order': order, 'order_items':order_items , 'base_template': base_template 
+        }) # passing order data
