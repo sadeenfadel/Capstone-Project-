@@ -15,6 +15,10 @@ urlpatterns = [
      path('profile/', views.profile_view, name='profile'),
      path('profile/edit/', views.ProfileUpdateView.as_view(), name='edit_profile'),
      path('profile/delete_account/', views.ProfileDeleteView.as_view(), name='delete_account'),
+     path('dashboard/', views.admin_dashboard, name='admin_dashboard'),
+     # # path('admin/orders/', views.admin_orders, name='admin_orders'),
+     # path('admin/bouquets/', views.admin_bouquets, name='admin_bouquets'),
+     path('profile/', views.profile_view, name='profile'),
 ]
 
 if settings.DEBUG:

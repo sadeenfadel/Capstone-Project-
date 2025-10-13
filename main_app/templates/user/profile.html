@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends base_template %}
 {% load static %}
 
 {% block title %}{{ user.username }}'s Profile{% endblock %}
@@ -19,7 +19,12 @@
       <p class="bio">{{ user.profile.bio|default:"No bio available 🌸" }}</p>
 
       <a href="{% url 'edit_profile' %}" class="logout-btn">Edit profile</a>
+      {% if not user.is_superuser%}
       <a href="{% url 'bouquet_list' %}" class="logout-btn">Go Back </a>
+      {% else %}
+      <a href="{% url 'admin_dashboard' %}" class="logout-btn">Go Back </a>
+      {% endif %}
+
     </div>
   </div>
 </div>

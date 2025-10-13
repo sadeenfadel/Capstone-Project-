@@ -52,8 +52,11 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, f'Welcome back {user.username}! 💐')
-            next_url = request.GET.get('next') or 'home'
-            return redirect(next_url)
+            if user.is_superuser:
+                return redirect('admin_dashboard')  
+            else:
+               next_url = request.GET.get('next') or 'home'
+               return redirect(next_url) 
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -78,23 +81,27 @@ def bouquet_details(request, pk):
 # ---------------- Profile ----------------
 @login_required
 def profile_view(request):
-    return render(request, 'user/profile.html', {'user': request.user})
-
-
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    return render(request, 'user/profile.html', {
+        'user': request.user,
+        'base_template': base_template
+    })
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'user/edit_profile.html'
     model = Profile
     form_class = ProfileForm
+    template_name = 'user/edit_profile.html'  # <--- حددنا القالب هنا
 
     def get_object(self, queryset=None):
         return self.request.user.profile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['user_form'] = UserForm(self.request.POST, instance=self.request.user)
-        else:
-            context['user_form'] = UserForm(instance=self.request.user)
+        context['user_form'] = UserForm(
+            self.request.POST if self.request.POST else None, 
+            instance=self.request.user
+        )
+        # نرسل للـ template القالب الأساسي (لليوزر أو الادمن)
+        context['base_template'] = 'admin_base.html' if self.request.user.is_superuser else 'base.html'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -103,21 +110,16 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         user_form = UserForm(request.POST, instance=request.user)
 
         if profile_form.is_valid() and user_form.is_valid():
-            # update username
             user = user_form.save(commit=False)
-
-            # update password if provided
             password = user_form.cleaned_data.get('password1')
             if password:
                 user.set_password(password)
-            
             user.save()
             profile_form.save()
-
-            # re-login if password changed
             login(request, user)
             messages.success(request, "Profile updated successfully! 🌸")
-            return redirect('profile')
+
+            return redirect('admin_dashboard' if user.is_superuser else 'profile')
 
         context = self.get_context_data()
         context['user_form'] = user_form
@@ -126,8 +128,44 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
 class ProfileDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    template_name = 'user/delete_account.html'
-    success_url = reverse_lazy('home')
+    template_name = 'user/delete_account.html'  # <--- حددنا القالب هنا
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['base_template'] = 'admin_base.html' if self.request.user.is_superuser else 'base.html'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('admin_dashboard' if self.request.user.is_superuser else 'home')
+
+@login_required
+def profile_view(request):
+    return render(request, 'user/profile.html', {
+        'user': request.user,
+        'base_template': 'admin_base.html' if request.user.is_superuser else 'base.html'
+    })
+
+# ---------------- Admin Dashboard ----------------
+@login_required
+def admin_dashboard(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Access denied. Admins only.")
+        return redirect('home')
+    
+    users = User.objects.all()
+    bouquets = Bouquet.objects.all()
+    flowers = Flower.objects.all()
+    
+    context = {
+        'users': users,
+        'bouquets': bouquets,
+        'flowers': flowers,
+    }
+    return render(request, 'admin/admin_dashboard.html', context)
+
+
+
+

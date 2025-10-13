@@ -1,0 +1,29 @@
+{% extends 'admin_base.html' %} 
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+ {% block extra_css %}
+ <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+ {% endblock %}
+ 
+{% block content %}
+<div class="dashboard">
+    <h1>Welcome, {{ user.username }} 🌸</h1>
+    <p>Here’s a quick overview of your shop performance.</p>
+
+    <div class="cards-container">
+        <div class="card">
+            <h3>Total Users</h3>
+            <p>{{ users.count }}</p>
+        </div>
+        <div class="card">
+            <h3>Total Bouquets</h3>
+            <p>{{ bouquets.count }}</p>
+        </div>
+        <div class="card">
+            <h3>Total Orders</h3>
+            <p>{{ orders.count }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
