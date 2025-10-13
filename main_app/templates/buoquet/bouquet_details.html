@@ -27,7 +27,13 @@
         </li>
       {% endfor %}
     </ul>
-    <a href="" class="see-details-btn">Order Now</a>
+
+    {% if request.user.is_superuser %}
+      <a href="{% url 'edit_bouquet' detail.id %}" class="btn-edit">Edit Bouquet</a>
+      <a href="{% url 'delete_bouquet' detail.id %}" class="btn-delete">Delete Bouquet</a>
+    {% else %}
+      <a href="" class="see-details-btn">Order Now</a>
+    {% endif %}
 
   </div>
 </section>

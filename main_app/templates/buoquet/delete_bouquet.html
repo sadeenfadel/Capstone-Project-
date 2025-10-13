@@ -1,0 +1,15 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Delete Bouquet{% endblock %}
+
+{% block content %}
+<h2>Delete Bouquet 🌿</h2>
+<p>Are you sure you want to delete "{{ bouquet.name }}"? This action cannot be undone!</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn-delete-confirm">Yes, Delete</button>
+    <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
+</form>
+{% endblock %}

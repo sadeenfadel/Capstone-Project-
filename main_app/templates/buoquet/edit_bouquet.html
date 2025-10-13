@@ -1,0 +1,15 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %}Edit Bouquet{% endblock %}
+
+{% block content %}
+<h2>Edit Bouquet 🌸</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-submit">Save Changes</button>
+    <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
+</form>
+{% endblock %}

@@ -9,7 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
-
+from django.shortcuts import get_object_or_404
+from django.forms import modelform_factory
 
 # ---------------- Public Pages ----------------
 def home(request):
@@ -117,6 +118,44 @@ def create_bouquet(request):
     return render(request, 'buoquet/create_bouquet.html', {
         'bouquet_form': bouquet_form,
         'flowers_form': flowers_form,
+        'base_template': 'admin_base.html'
+    })
+# ---------------- Edit Bouquet ----------------
+@login_required
+@user_passes_test(superuser_required)
+def edit_bouquet(request, pk):
+    bouquet = get_object_or_404(Bouquet, pk=pk)
+    BouquetForm = modelform_factory(Bouquet, fields=['name', 'image'])
+    
+    if request.method == 'POST':
+        form = BouquetForm(request.POST, request.FILES, instance=bouquet)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Bouquet updated successfully! 🌸")
+            return redirect('bouquet_detail', pk=bouquet.pk)
+    else:
+        form = BouquetForm(instance=bouquet)
+    
+    return render(request, 'buoquet/edit_bouquet.html', {
+        'form': form,
+        'bouquet': bouquet,
+        'base_template': 'admin_base.html'
+    })
+
+
+# ---------------- Delete Bouquet ----------------
+@login_required
+@user_passes_test(superuser_required)
+def delete_bouquet(request, pk):
+    bouquet = get_object_or_404(Bouquet, pk=pk)
+    
+    if request.method == 'POST':
+        bouquet.delete()
+        messages.success(request, "Bouquet deleted successfully! 💐")
+        return redirect('bouquet_list')
+    
+    return render(request, 'buoquet/delete_bouquet.html', {
+        'bouquet': bouquet,
         'base_template': 'admin_base.html'
     })
 # ---------------- Profile ----------------
