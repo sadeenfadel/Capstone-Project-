@@ -1,7 +1,8 @@
+/* Hero Section */
 .hero {
   position: relative;
   height: 100vh;
-  background-image: url("../images/home.jpg"); /* مسار الصورة */
+  background-image: url("../images/home.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -11,53 +12,30 @@
 }
 
 .overlay {
-  background-color: rgba(255, 255, 255, 0.75); /* خلفية شفافة */
-  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 50px 30px;
   border-radius: 20px;
-  max-width: 600px;
+  max-width: 650px;
 }
 
 .overlay h1 {
   font-family: "Playfair Display", serif;
   font-size: 3rem;
   color: #e91e63;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .overlay p {
   font-family: "Poppins", sans-serif;
   color: #444;
   font-size: 1.3rem;
-  margin-bottom: 20px;
-}
-
-
-
-.btn:hover {
-  background-color: #c2185b;
-}
-
-
-.hero-content h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  color: #fff8f9;
-}
-
-.hero-content span {
-  color: #ffe4ec;
-}
-
-.hero-content p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-  margin: 10px 0 20px;
+  margin-bottom: 25px;
 }
 
 .btn {
   background-color: #e75480;
-  color: white;
-  padding: 10px 25px;
+  color: #fff;
+  padding: 12px 30px;
   border-radius: 25px;
   text-decoration: none;
   font-weight: 500;
@@ -66,4 +44,151 @@
 
 .btn:hover {
   background-color: #f7b2c4;
+  color: #e75480;
 }
+
+/* About Section */
+.about {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px;
+  background-color: #fff8f9;
+  color: #444;
+  gap: 40px;
+}
+
+.about-img {
+  width: 50%;
+}
+
+.about-img img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.about-text {
+  width: 50%;
+  text-align: left;
+}
+
+.about-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #e91e63; 
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* زر About (اختياري) */
+.about-text .btn {
+  background-color: #e91e63; 
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.about-text .btn:hover {
+  background-color: #f7b2c4;
+  color: #e91e63;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .about {
+    flex-direction: column; /* خليه عمودي */
+    padding: 50px 20px;
+    text-align: center; 
+    align-items: center;
+  }
+
+  .about-img {
+    display: none; /* نخفي الصورة */
+  }
+
+  .about-text {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+/* Contact Section */
+.contact {
+  background-color: #fff8f9;
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.contact h2 {
+  color: #e75480;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.contact p {
+  font-family: 'Poppins', sans-serif;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 10px; /* إضافة padding صغير عشان لا يلمس حواف الشاشة */
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #f7b2c4;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+}
+
+.contact-form textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.contact-form .btn {
+  padding: 12px 30px;
+}
+
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .hero p { font-size: 1.1rem; }
+  .contact { padding: 50px 15px; }
+  .contact-form textarea { height: 100px; }
+  .contact-form .btn { padding: 10px 25px; font-size: 0.95rem; }
+}
+
+@media (max-width: 480px) {
+  .contact h2 { font-size: 1.6rem; }
+  .contact p { font-size: 0.95rem; }
+  .contact-form textarea { height: 90px; }
+  .contact-form .btn { padding: 8px 16px; font-size: 0.85rem; }
+  .contact-form { padding: 0 5px; } /* تصغير padding أكثر */
+}
+

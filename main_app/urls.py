@@ -10,9 +10,11 @@ urlpatterns = [
      path('signup/', views.signup_view, name='signup'),
      path('login/', views.login_view, name='login'),
      path('logout/', views.logout_view, name='logout'),
-     path('bouquets/', views. bouquet_list, name='bouquet_list'),
-      path('details/<int:pk>/', views. bouquet_details, name='bouquet_detail'),
-      path('profile/', views. profile_view, name='profile'),
+     path('bouquets/', views.bouquet_list, name='bouquet_list'),
+     path('details/<int:pk>/', views.bouquet_details, name='bouquet_detail'),
+     path('profile/', views.profile_view, name='profile'),
+     path('profile/edit/', views.ProfileUpdateView.as_view(), name='edit_profile'),
+     path('profile/delete_account/', views.ProfileDeleteView.as_view(), name='delete_account'),
 ]
 
 if settings.DEBUG:

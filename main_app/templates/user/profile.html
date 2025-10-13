@@ -18,7 +18,8 @@
       <h2>{{ user.username }}</h2>
       <p class="bio">{{ user.profile.bio|default:"No bio available 🌸" }}</p>
 
-      <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+      <a href="{% url 'edit_profile' %}" class="logout-btn">Edit profile</a>
+      <a href="{% url 'bouquet_list' %}" class="logout-btn">Go Back </a>
     </div>
   </div>
 </div>

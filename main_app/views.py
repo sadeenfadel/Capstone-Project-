@@ -1,12 +1,16 @@
-from django.shortcuts import render , redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from .models import Flower, Bouquet , Profile , User
+from .models import Flower, Bouquet, Profile, User
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileForm, UserForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
 
-# Create your views here.
+
+# ---------------- Public Pages ----------------
 def home(request):
     return render(request, 'home.html')
 
@@ -16,28 +20,29 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
-# undertanding every part of this :) 
+
+# ---------------- Auth ----------------
 def signup_view(request):
-    if request.method == 'POST':     # the user sent his data 
+    if request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
-        if form.is_valid():        # everything is ok with data 
-            user = form.save()     # saving the user to the database  with his User info // here the signal will create the profile automatically
-            image = form.cleaned_data.get('image')   # get the image and bio from the form 
-            bio = form.cleaned_data.get('bio')       # cleaned_data is dictionary of all the fields in the form we cant call this before is_valid()
+        if form.is_valid():
+            user = form.save()
+            image = form.cleaned_data.get('image')
+            bio = form.cleaned_data.get('bio')
 
-            profile = user.profile      # get the profile related to this user
-            if image:                   # if the user uploaded an image
-                profile.image = image   # set the profile image to the uploaded image
-            if bio:                     # if the user wrote a bio
-                profile.bio = bio       # set the profile bio to the written bio
-            profile.save()              # save the profile to the database
+            profile = user.profile
+            if image:
+                profile.image = image
+            if bio:
+                profile.bio = bio
+            profile.save()
 
-            login(request, user)        # log the user in  no need to enter his data again in login form  (user is the user object that we just created)
-            messages.success(request, f'Welcome {user.username}! 🌸')     
+            login(request, user)
+            messages.success(request, f'Welcome {user.username}! 🌸')
             return redirect('home')
-    else:     # the user is visiting the page
-        form = SignUpForm()     
-    return render(request, 'registration/signup.html', {'form': form})   # render the form in the template with the context 
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def login_view(request):
@@ -47,7 +52,8 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, f'Welcome back {user.username}! 💐')
-            return redirect('home')
+            next_url = request.GET.get('next') or 'home'
+            return redirect(next_url)
     else:
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -59,17 +65,69 @@ def logout_view(request):
     return redirect('home')
 
 
-
+# ---------------- Bouquets ----------------
 def bouquet_list(request):
-    bouquets = Bouquet.objects.all()  
+    bouquets = Bouquet.objects.all()
     return render(request, 'buoquet/bouquet_list.html', {'bouquets': bouquets})
 
 def bouquet_details(request, pk):
     detail = Bouquet.objects.get(id=pk)
     return render(request, 'buoquet/bouquet_details.html', {'detail': detail})
 
+
+# ---------------- Profile ----------------
 @login_required
 def profile_view(request):
-    return render(request, 'user/profile.html', {'user':request.user})
+    return render(request, 'user/profile.html', {'user': request.user})
 
-    
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'user/edit_profile.html'
+    model = Profile
+    form_class = ProfileForm
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['user_form'] = UserForm(self.request.POST, instance=self.request.user)
+        else:
+            context['user_form'] = UserForm(instance=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        profile_form = ProfileForm(request.POST, request.FILES, instance=self.object)
+        user_form = UserForm(request.POST, instance=request.user)
+
+        if profile_form.is_valid() and user_form.is_valid():
+            # update username
+            user = user_form.save(commit=False)
+
+            # update password if provided
+            password = user_form.cleaned_data.get('password1')
+            if password:
+                user.set_password(password)
+            
+            user.save()
+            profile_form.save()
+
+            # re-login if password changed
+            login(request, user)
+            messages.success(request, "Profile updated successfully! 🌸")
+            return redirect('profile')
+
+        context = self.get_context_data()
+        context['user_form'] = user_form
+        return self.render_to_response(context)
+
+
+class ProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'user/delete_account.html'
+    success_url = reverse_lazy('home')
+
+    def get_object(self, queryset=None):
+        return self.request.user

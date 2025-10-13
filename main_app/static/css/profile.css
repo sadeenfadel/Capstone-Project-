@@ -5,11 +5,11 @@
   align-items: center;
   padding: 40px 20px;
   min-height: 80vh;
-  background: linear-gradient(135deg, #ffe0ec, #fff7f9);
+  background: linear-gradient(135deg, #ffffff, #fff7f9);
 }
 
 .profile-card {
-  background: #fff;
+  background: #f7e0e0;
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   padding: 40px 30px;

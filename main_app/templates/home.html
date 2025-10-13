@@ -1,21 +1,48 @@
-{% extends "base.html" %} {% load static %}
-{% block title %} 
-  Home Page 
-{% endblock %} 
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
-  <section class="hero">
-    <div class="overlay">
-       {% if user.is_authenticated %}
-      <h1>Welcome to Blossom Boutique  {{user.username}}🌹</h1>
+<section class="hero">
+  <div class="overlay">
+    {% if user.is_authenticated %}
+      <h1>Welcome to Blossom Boutique, {{ user.username }} 🌸</h1>
       <p>Where flowers speak louder than words</p>
-      <a href="" class="btn">Shop Now</a>
-      {% else %}
-      <h1>Welcome to Blossom Boutique  🌹</h1>
+      <a href="{% url 'bouquet_list' %}" class="btn">Shop Now</a>
+    {% else %}
+      <h1>Welcome to Blossom Boutique 🌸</h1>
       <p>Where flowers speak louder than words</p>
       <a href="{% url 'signup' %}" class="btn">Get Started</a>
-      
-      {% endif %}
-    </div>
-  </section>
+    {% endif %}
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-img">
+    <img src="{% static 'images/about .jpeg' %}" alt="Flower Shop Interior">
+  </div>
+  <div class="about-text">
+    <h2>About Blossom Boutique</h2>
+    <p>At Blossom Boutique, we believe every flower tells a story 🌷. Our bouquets are crafted with care, creativity, and a touch of love to bring beauty into your moments.</p>
+    <a href="{% url 'bouquet_list' %}" class="btn">See Our Bouquets</a>
+  </div>
+</section>
+
+<section class="contact">
+  <h2>Contact Us</h2>
+  <p>We’d love to hear from you 🌸</p>
+  
+  <form method="POST" class="contact-form">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit" class="btn">Send Message</button>
+  </form>
+</section>
 {% endblock %}

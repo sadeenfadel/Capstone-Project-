@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Edit Profile {% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">{% endblock %}
+{% block content %}
+<div class="edit-profile-container">
+    <h2>Edit Profile 🌸</h2>
+    <form method="post" enctype="multipart/form-data" class="edit-profile-form">
+        {% csrf_token %}
+
+        <!-- صورة البروفايل -->
+        <div class="profile-img-section">
+            {% if request.user.profile.image %}
+                <img src="{{ request.user.profile.image.url }}" alt="Profile Image" class="profile-img-preview">
+            {% else %}
+                <img src="{% static 'images/default_profile.png' %}" alt="Profile Image" class="profile-img-preview">
+            {% endif %}
+            {{ form.image }}
+            {% for error in form.image.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- البايو -->
+        <div class="user-fields">
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {% for error in form.bio.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Username -->
+        <div class="user-fields">
+            {{ user_form.username.label_tag }}
+            {{ user_form.username }}
+            {% for error in user_form.username.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Password -->
+        <div class="user-fields">
+            {{ user_form.password1.label_tag }}
+            {{ user_form.password1 }}
+            {% for error in user_form.password1.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="user-fields">
+            {{ user_form.password2.label_tag }}
+            {{ user_form.password2 }}
+            {% for error in user_form.password2.errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn-submit">Save Changes</button>
+        <a href="{% url 'profile' %}" class="btn-delete">Cancel</a>
+
+        <a href="{% url 'delete_account' %}" class="btn-delete">Delete Account</a>
+    </form>
+</div>
+{% endblock %}
+
+<!-- ربط CSS -->
+<link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
