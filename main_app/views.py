@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from .models import Flower, Bouquet, Profile, User
+from .models import Flower, Bouquet, Profile, User ,  BouquetFlower
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm, ProfileForm, UserForm
+from .forms import SignUpForm, ProfileForm, UserForm , BouquetForm, FlowersSelectionForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import user_passes_test
 
 
 # ---------------- Public Pages ----------------
@@ -71,13 +72,53 @@ def logout_view(request):
 # ---------------- Bouquets ----------------
 def bouquet_list(request):
     bouquets = Bouquet.objects.all()
-    return render(request, 'buoquet/bouquet_list.html', {'bouquets': bouquets})
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    
+    return render(request, 'buoquet/bouquet_list.html', {
+        'bouquets': bouquets,
+        'base_template': base_template
+    })
 
 def bouquet_details(request, pk):
     detail = Bouquet.objects.get(id=pk)
     return render(request, 'buoquet/bouquet_details.html', {'detail': detail})
 
+def superuser_required(user):
+    return user.is_superuser
 
+@login_required
+@user_passes_test(superuser_required)
+def create_bouquet(request):
+    if request.method == 'POST':
+        bouquet_form = BouquetForm(request.POST, request.FILES)
+        flowers_form = FlowersSelectionForm(request.POST)
+
+        if bouquet_form.is_valid() and flowers_form.is_valid():
+            bouquet = bouquet_form.save(commit=False)
+            bouquet.user = request.user
+            bouquet.save()
+
+          
+            for field_name, quantity in flowers_form.cleaned_data.items():
+                if quantity and quantity > 0:
+                    flower_id = int(field_name.split('_')[1])
+                    BouquetFlower.objects.create(
+                        bouquet=bouquet,
+                        flower_id=flower_id,
+                        quantity=quantity
+                    )
+
+            messages.success(request, "Bouquet created successfully! 🌸")
+            return redirect('bouquet_list')
+    else:
+        bouquet_form = BouquetForm()
+        flowers_form = FlowersSelectionForm()
+
+    return render(request, 'buoquet/create_bouquet.html', {
+        'bouquet_form': bouquet_form,
+        'flowers_form': flowers_form,
+        'base_template': 'admin_base.html'
+    })
 # ---------------- Profile ----------------
 @login_required
 def profile_view(request):
@@ -165,7 +206,6 @@ def admin_dashboard(request):
         'flowers': flowers,
     }
     return render(request, 'admin/admin_dashboard.html', context)
-
 
 
 

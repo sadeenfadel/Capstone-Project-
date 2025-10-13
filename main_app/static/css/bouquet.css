@@ -89,3 +89,26 @@
 .see-details-btn:hover {
     background-color: #d9534f;
 }
+
+
+.bouquet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-create {
+    background-color: #f7b2c4;
+    color: #6d1650;
+    padding: 8px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-create:hover {
+    background-color: #f7b2c4;
+    color: #e91e63;
+}

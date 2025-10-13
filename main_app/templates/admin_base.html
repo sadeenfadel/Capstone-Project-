@@ -16,7 +16,7 @@
         <ul>
             <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
             <li><a href="">Orders</a></li>
-            <li><a href="">Bouquets</a></li>
+            <li><a href="{% url 'bouquet_list' %}">Bouquets</a></li>
             <li>
                 <a href="{% url 'profile' %}">
                     <img src="{{ user.profile.image.url }}" alt="profile" class="admin-avatar">

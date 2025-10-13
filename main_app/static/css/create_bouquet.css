@@ -1,0 +1,96 @@
+/* ملف: static/css/create_bouquet.css */
+
+/* الحاوية الرئيسية */
+form {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #fff8f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+/* عنوان الصفحة */
+h2 {
+    text-align: center;
+    color: #d14f7f;
+    margin-bottom: 25px;
+    font-size: 2rem;
+}
+
+/* عنوان قسم الأزهار */
+h3 {
+    margin-top: 20px;
+    color: #4b2e83;
+    font-size: 1.4rem;
+    border-bottom: 1px solid #e0c6d0;
+    padding-bottom: 5px;
+}
+
+/* حقول الفورم */
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* كل وردة */
+.flower-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px dashed #d9a5b3;
+    border-radius: 8px;
+    background-color: #fff0f6;
+}
+
+/* كل عنصر داخل الورد */
+.flower-form label {
+    flex: 1 0 100px;
+    font-weight: bold;
+    color: #6b1f57;
+}
+
+/* زر الإرسال */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #d14f7f;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #b03e65;
+}
+
+/* أخطاء الفورم */
+p.errorlist {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* لجعل الفورم مناسب للشاشات الصغيرة */
+@media (max-width: 600px) {
+    .flower-form {
+        flex-direction: column;
+    }
+}

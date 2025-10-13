@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends base_template %}
 {% load static %}
 
 {% block title %}Bouquets{% endblock %}
@@ -8,7 +8,13 @@
 {% endblock %}
 
 {% block content %}
-<h2 class="page-title">Our Bouquets </h2>
+<div class="bouquet-header">
+    <h2>Our Bouquets 🌸</h2>
+    {% if user.is_superuser %}
+        <a href="{% url 'create_bouquet' %}" class="btn btn-create">+ Add New Bouquet</a>
+    {% endif %}
+</div>
+
 
 <div class="bouquet-container">
   {% for bouquet in bouquets %}
