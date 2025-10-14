@@ -92,7 +92,7 @@
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ order.user.username }}</td>
-        <td>{{ order.bouquet.name }}</td>
+        <td>{{ order.bouquet.name }}</td>    <!-- here -->
         <td>${{ order.total_price }}</td>
         <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
         <td>
