@@ -20,9 +20,13 @@ urlpatterns = [
      path('bouquet/<int:pk>/edit/', views.edit_bouquet, name='edit_bouquet'),
      path('bouquet/<int:pk>/delete/', views.delete_bouquet, name='delete_bouquet'),
      path ('bouquet/<int:pk>/order/' , views.create_order , name = 'create_order'),
-     path ('bouquet/<int:pk>/detail/' , views. order_details , name = 'order_dtail'),
+     path ('bouquet/<int:pk>/detail/' , views. order_details , name = 'order_dtail'),   # No Order matches the given query.  // The current path, bouquet/17/detail/, 17 is bouquet id not order id
+     #path('order/<int:pk>/', views.order_details, name='order_dtail'),
+     path('order/<int:pk>/update_status/', views.update_order_status, name='update_order_status'),
+     path('order/<int:pk>/confirm/', views.confirm_order, name='confirm_order'),
+
      path('history/', views.order_history , name='order_history'),
-     path('oderlist/', views.order_list , name='order_list')
+     path('oderlist/', views.order_list , name='order_list'),
 ]
 
 if settings.DEBUG:

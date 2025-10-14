@@ -1,34 +1,51 @@
-{% extends base_template %} {% load static %}
- {% block extra_css %}
- <link rel="stylesheet" href="{% static 'css/order_history.css'%}">
- {% endblock %}
+{% extends base_template %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_history.css'%}">
+{% endblock %}
+
 {% block content %}
 <h2>My Order History 🌸</h2>
 
 <table class="order-table">
   <tr>
     <th>Order ID</th>
-    <th>Bouquet</th>
+    <th>Bouquets</th>
     <th>Date</th>
     <th>Total Price</th>
+    <th>Confirm</th>
+    <th>Status</th>
   </tr>
+
   {% for order in orders %}
-    {% for item in order.orderbouquet_set.all %}
-      <tr>
-        <td>{{ order.id }}</td>
-        <td>
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>
+        {% for item in order.orderbouquet_set.all %}
           {% if item.bouquet %}
-            <a href="{% url 'order_dtail' order.id %}">{{ item.bouquet.name }}</a>
+            {{ item.bouquet.name }}{% if not forloop.last %}, {% endif %}
           {% else %}
-            <span class="deleted">{{item.bouquet_name}}  has been deleted by admin </span>
+            <span class="deleted">{{ item.bouquet_name }} (deleted)</span>{% if not forloop.last %}, {% endif %}
           {% endif %}
-        </td>
-        <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
-        <td>${{ order.total_price }}</td>
-      </tr>
-    {% endfor %}
+        {% endfor %}
+      </td>
+      <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+      <td>${{ order.total_price }}</td>
+      <td>
+        {% if order.status != 'confirmed' %}
+          <form action="{% url 'confirm_order' order.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Confirm</button>
+          </form>
+        {% else %}
+          Confirmed
+        {% endif %}
+      </td>
+      <td>{{ order.status|capfirst }}</td>
+    </tr>
   {% empty %}
-      <tr><td colspan="4">You have no orders yet.</td></tr>
+    <tr><td colspan="6">You have no orders yet.</td></tr>
   {% endfor %}
 </table>
 {% endblock %}

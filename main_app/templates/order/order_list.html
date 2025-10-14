@@ -1,124 +1,48 @@
-{% extends base_template %}
-{% load static %}
-
-{% block title %}All Orders{% endblock %}
-
-{% block extra_css %}
-<style>
-  body {
-    background-color: #f9f9fb;
-  }
-
-  .order-container {
-    max-width: 1100px;
-    margin: 50px auto;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 25px;
-  }
-
-  h2 {
-    text-align: center;
-    color: #333;
-    font-weight: 600;
-    margin-bottom: 25px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    font-size: 15px;
-  }
-
-  th {
-    background-color: #f3f4f6;
-    color: #444;
-    padding: 12px;
-    font-weight: 600;
-    border-bottom: 2px solid #ddd;
-  }
-
-  td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-  }
-
-  tr:hover {
-    background-color: #fdf3f7;
-  }
-
-  .btn-view {
-    background-color: #f48fb1;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
-  }
-
-  .btn-view:hover {
-    background-color: #ec407a;
-  }
-
-  .no-orders {
-    text-align: center;
-    color: #777;
-    padding: 20px;
-    font-style: italic;
-  }
-</style>
-{% endblock %}
-
-{% block content %}
-<div class="order-container">
-  <h2>🧾 All Orders</h2>
-
-  {% if orders %}
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>User</th>
-        <th>Bouquet</th>
-        <th>Total Price</th>
-        <th>Order Date</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders %}
-      <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ order.user.username }}</td>
-<td>
-  {% for ob in order.orderbouquet_set.all %}
-    {% if ob.bouquet %}
-      {{ ob.bouquet.name }} (x{{ ob.quantity }})
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>User</th>
+      <th>Bouquets</th>
+      <th>Total Price</th>
+      <th>Order Date</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ order.user.username }}</td>
+      <td>
+        {% for item in order.items %}
+          {% if item.bouquet %}
+            {{ item.bouquet.name }} x{{ item.quantity }}<br>
+          {% else %}
+            <span class="deleted">{{ item.bouquet_name }} (Deleted)</span><br>
+          {% endif %}
+        {% endfor %}
+      </td>
+      <td>${{ order.total_price }}</td>
+      <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+      <td>
+        <a href="{% url 'order_dtail' order.id %}" class="btn-view">View Details</a>
+      </td>
+      <td>
+  {% if request.user.is_superuser %}
+    {% if order.status != 'ready' %}
+      <form action="{% url 'update_order_status' order.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn-view">Mark as Ready</button>
+      </form>
     {% else %}
-      <span style="color:red; font-style:italic;">
-        {{ ob.bouquet_name }} (deleted)
-      </span>
+      Ready
     {% endif %}
-    {% if not forloop.last %}, {% endif %}
-  {% empty %}
-    <span style="color: gray;">No bouquets</span>
-  {% endfor %}
-</td>
-
-       <!-- <td>{{ order.bouquet.name }}</td>     here we cant do that because the relation is m:m through orderbouquet-->
-        <td>${{ order.total_price }}</td>
-        <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
-        <td>
-          <a href="{% url 'order_dtail' order.id %}" class="btn-view">View Details</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
   {% else %}
-  <p class="no-orders">No orders have been placed yet.</p>
+    {{ order.status }}
   {% endif %}
-</div>
-{% endblock %}
+</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

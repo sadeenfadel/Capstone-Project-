@@ -11,7 +11,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404
 from django.forms import modelform_factory
-
+from django.utils import timezone
+from datetime import timedelta
 # ---------------- Public Pages ----------------
 def home(request):
     return render(request, 'home.html')
@@ -259,7 +260,7 @@ def create_order(request , pk):
     if request.method == 'POST' :  # the user sent the order form
         qnt =  int(request.POST.get('quantity'))  # the quantity user inserted 
         total_price = bquet.total_price * qnt 
-        order = Order.objects.create(user=request.user , total_price =total_price )
+        order = Order.objects.create(user=request.user , total_price =total_price ) 
         OrderBouquet.objects.create(order =order , bouquet = bquet , quantity=qnt , bouquet_name = bquet.name)
         messages.success(request, f"Your order for {bquet.name} x{qnt} has been placed! 🌸")
         return redirect('order_dtail'  , pk = order.id)
@@ -268,7 +269,7 @@ def create_order(request , pk):
 
 @login_required
 def order_details(request, pk):
-    order = get_object_or_404(Order, pk=pk, user=request.user)   # returning the order for specific order and user
+    order = get_object_or_404(Order,  pk=pk, user=request.user)   # returning the order for specific order and user
     order_items = order.orderbouquet_set.all()  # جميع البوكيهات داخل الأوردر
     for item in order_items:
        item.subtotal = item.bouquet.total_price * item.quantity
@@ -288,5 +289,34 @@ def order_history(request):
 @login_required
 def order_list(request):
     orders = Order.objects.all()
+    for order in orders:
+        order.items = order.orderbouquet_set.all()  # كل البوكيهات المرتبطة بالأوردر
+
     base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
     return render(request, 'order/order_list.html', {'orders':orders ,'base_template': base_template })
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def update_order_status(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        order.status = 'ready'
+        order.save()
+        messages.success(request, f"Order #{order.id} marked as ready!")
+    return redirect('order_list')
+
+
+@login_required
+def confirm_order(request, pk):
+    order = get_object_or_404(Order, pk=pk, user=request.user)
+    if request.method == 'POST':
+        order.status = 'confirmed'
+        order.save()
+        messages.success(request, "Order confirmed!")
+    return redirect('order_history')
+
+def delete_unconfirmed_orders():
+    threshold = timezone.now() - timedelta(hours=48)
+    orders_to_delete = Order.objects.filter(status='ready', order_date__lt=threshold)
+    orders_to_delete.delete()
