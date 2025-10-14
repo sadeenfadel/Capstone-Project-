@@ -92,7 +92,22 @@
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ order.user.username }}</td>
-        <td>{{ order.bouquet.name }}</td>    <!-- here -->
+<td>
+  {% for ob in order.orderbouquet_set.all %}
+    {% if ob.bouquet %}
+      {{ ob.bouquet.name }} (x{{ ob.quantity }})
+    {% else %}
+      <span style="color:red; font-style:italic;">
+        {{ ob.bouquet_name }} (deleted)
+      </span>
+    {% endif %}
+    {% if not forloop.last %}, {% endif %}
+  {% empty %}
+    <span style="color: gray;">No bouquets</span>
+  {% endfor %}
+</td>
+
+       <!-- <td>{{ order.bouquet.name }}</td>     here we cant do that because the relation is m:m through orderbouquet-->
         <td>${{ order.total_price }}</td>
         <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
         <td>
