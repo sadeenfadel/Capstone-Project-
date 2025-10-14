@@ -1,0 +1,73 @@
+.order-detail-container {
+  width: 80%;
+  margin: 40px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.order-items-table th, .order-items-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.total-label {
+  font-weight: bold;
+  text-align: right;
+}
+
+.total-value {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.btn-user, .btn-admin {
+  background: #ff4081;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-user:hover, .btn-admin:hover {
+  background: #e73370;
+}
+
+.deleted {
+  color: #999;
+  font-style: italic;
+}
+
+.status.pending { color: orange; }
+.status.ready { color: blue; }
+.status.confirmed { color: green; }
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #555;
+}
+
+.btn-remove {
+  color: white;
+  background-color: #e74c3c;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-remove:hover {
+  background-color: #c0392b;
+}

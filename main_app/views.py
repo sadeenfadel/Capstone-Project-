@@ -259,9 +259,28 @@ def create_order(request , pk):
     # here iam creating order so POST 
     if request.method == 'POST' :  # the user sent the order form
         qnt =  int(request.POST.get('quantity'))  # the quantity user inserted 
-        total_price = bquet.total_price * qnt 
-        order = Order.objects.create(user=request.user , total_price =total_price ) 
-        OrderBouquet.objects.create(order =order , bouquet = bquet , quantity=qnt , bouquet_name = bquet.name)
+
+        # we get the orders with pending status means the user can add more bouquet to that order
+        existing_order = Order.objects.filter(user=request.user, status='pending').first()
+        if existing_order:
+        # modifying the total_price 
+           existing_order.total_price += bquet.total_price * qnt 
+           existing_order.save()
+
+           OrderBouquet.objects.create(order =existing_order , bouquet = bquet , quantity=qnt , bouquet_name = bquet.name)
+           order = existing_order 
+        else:
+            order = Order.objects.create(
+                user=request.user,
+                total_price=bquet.total_price * qnt
+            )
+
+            OrderBouquet.objects.create(
+                order=order,
+                bouquet=bquet,
+                quantity=qnt,
+                bouquet_name=bquet.name
+            )
         messages.success(request, f"Your order for {bquet.name} x{qnt} has been placed! 🌸")
         return redirect('order_dtail'  , pk = order.id)
     return render (request , 'order/create_order.html' , {'boq' : bquet}) # here we render the page passing to it the boq details 
@@ -320,3 +339,21 @@ def delete_unconfirmed_orders():
     threshold = timezone.now() - timedelta(hours=48)
     orders_to_delete = Order.objects.filter(status='ready', order_date__lt=threshold)
     orders_to_delete.delete()
+
+
+
+@login_required
+def remove_bouquet_from_order(request, order_id, bouquet_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    OrderBouquet.objects.filter(order=order, bouquet_id=bouquet_id).delete()
+
+   
+    messages.success(request, "Bouquet removed from your order.")
+
+    total = 0
+    for item in order.orderbouquet_set.all():
+        total += item.bouquet.total_price * item.quantity
+    order.total_price = total
+    order.save()
+
+    return redirect('order_dtail', pk=order.id)

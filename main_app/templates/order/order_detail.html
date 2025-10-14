@@ -1,19 +1,92 @@
 {% extends base_template %}
+{% load static %}
 
-{% block title %}Order #{{ order.id }} Details{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_detail.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>Order #{{ order.id }}</h2>
-<p>Placed by: {{ order.user.username }}</p>
-<p>Order date: {{ order.order_date }}</p>
-<p>Total Price: ${{ order.total_price }}</p>
+<div class="order-detail-container">
+  <h2>🧾 Order #{{ order.id }} Details</h2>
 
-<h3>Bouquets in this order:</h3>
-<ul>
-    {% for ob in order.orderbouquet_set.all %}
-        <li>{{ ob.bouquet.name }} × {{ ob.quantity }} (Subtotal: ${{ ob.bouquet.total_price|floatformat:2 }} × {{ ob.quantity }} = ${{ ob.subtotal|floatformat:2 }})
-</li>
-    {% endfor %}
-</ul>
+  <div class="order-info">
+    <p><strong>Placed by:</strong> {{ order.user.username }}</p>
+    <p><strong>Date:</strong> {{ order.order_date|date:"Y-m-d H:i" }}</p>
+    <p><strong>Status:</strong> 
+      <span class="status {{ order.status }}">{{ order.status|title }}</span>
+    </p>
+  </div>
 
+  <table class="order-items-table">
+    <thead>
+      <tr>
+        <th>Bouquet</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Subtotal</th>
+        <th>Action</th> <!-- 🔹 العمود الجديد -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order_items %}
+      <tr>
+        <td>
+          {% if item.bouquet %}
+            {{ item.bouquet.name }}
+          {% else %}
+            <span class="deleted">{{ item.bouquet_name }} (deleted)</span>
+          {% endif %}
+        </td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ item.bouquet.total_price|floatformat:2 }}</td>
+        <td>${{ item.subtotal|floatformat:2 }}</td>
+        <td>
+          <!-- 🔹 زر الحذف -->
+          <a href="{% url 'deleteboq' order.id item.bouquet.id %}" 
+             class="btn-remove"
+             onclick="return confirm('Are you sure you want to remove this bouquet?');">
+             ❌ Remove
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="total-label">Total:</td>
+        <td class="total-value">${{ order.total_price|floatformat:2 }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="order-actions">
+    {% if request.user.is_superuser %}
+      {# --- admin side --- #}
+      {% if order.status == "pending" %}
+        <form action="{% url 'update_order_status' order.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn-admin">Mark as Ready</button>
+        </form>
+      {% elif order.status == "ready" %}
+        <p class="ready-msg">✅ This order is ready for pickup.</p>
+      {% else %}
+        <p>Order already confirmed by user.</p>
+      {% endif %}
+    {% else %}
+      {# --- user side --- #}
+      {% if order.status == "ready" %}
+        <form action="{% url 'confirm_order' order.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn-user">Confirm Received</button>
+        </form>
+      {% elif order.status == "confirmed" %}
+        <p class="confirmed-msg">✅ You have confirmed this order.</p>
+      {% else %}
+        <p class="pending-msg">⏳ Your order is being prepared.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <a href="{% url 'order_history' %}" class="back-link">← Back to Orders</a>
+</div>
 {% endblock %}
