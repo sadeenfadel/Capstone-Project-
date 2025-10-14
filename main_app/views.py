@@ -260,7 +260,7 @@ def create_order(request , pk):
         qnt =  int(request.POST.get('quantity'))  # the quantity user inserted 
         total_price = bquet.total_price * qnt 
         order = Order.objects.create(user=request.user , total_price =total_price )
-        OrderBouquet.objects.create(order =order , bouquet = bquet , quantity=qnt)
+        OrderBouquet.objects.create(order =order , bouquet = bquet , quantity=qnt , bouquet_name = bquet.name)
         messages.success(request, f"Your order for {bquet.name} x{qnt} has been placed! 🌸")
         return redirect('order_dtail'  , pk = order.id)
     return render (request , 'order/create_order.html' , {'boq' : bquet}) # here we render the page passing to it the boq details 
@@ -276,3 +276,17 @@ def order_details(request, pk):
     base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
     return render(request, 'order/order_detail.html', {'order': order, 'order_items':order_items , 'base_template': base_template 
         }) # passing order data
+
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-order_date')
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    return render(request, 'order/order_history.html', {'orders': orders, 'base_template': base_template})
+
+
+@login_required
+def order_list(request):
+    orders = Order.objects.all()
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    return render(request, 'order/order_list.html', {'orders':orders ,'base_template': base_template })

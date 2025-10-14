@@ -21,7 +21,8 @@ urlpatterns = [
      path('bouquet/<int:pk>/delete/', views.delete_bouquet, name='delete_bouquet'),
      path ('bouquet/<int:pk>/order/' , views.create_order , name = 'create_order'),
      path ('bouquet/<int:pk>/detail/' , views. order_details , name = 'order_dtail'),
-     # # path('admin/orders/', views.admin_orders, name='admin_orders'),
+     path('history/', views.order_history , name='order_history'),
+     path('oderlist/', views.order_list , name='order_list')
 ]
 
 if settings.DEBUG:

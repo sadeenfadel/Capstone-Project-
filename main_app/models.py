@@ -59,7 +59,7 @@ class BouquetFlower(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    bouquets = models.ManyToManyField('Bouquet', through='OrderBouquet')
+    bouquets = models.ManyToManyField(Bouquet, through='OrderBouquet')
     order_date = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
@@ -68,9 +68,8 @@ class Order(models.Model):
 
 class OrderBouquet(models.Model):
       order = models.ForeignKey(Order , on_delete= models.CASCADE)
-      bouquet = models.ForeignKey(Bouquet , on_delete=models.CASCADE)
+      bouquet = models.ForeignKey(Bouquet, on_delete=models.SET_NULL, null=True, blank=True)
       quantity =  models.PositiveIntegerField(default=1)
-
+      bouquet_name = models.CharField(max_length=100, null=True, blank=True)  # added this line to know the name of bouquet deleted 
       def __str__(self):
-           return f"{self.quantity} × {self.bouquet.name} (Order {self.order.id})"
-    
+             return f"{self.quantity} × {self.bouquet_name or 'Deleted Bouquet'} (Order {self.order.id})"

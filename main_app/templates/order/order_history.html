@@ -1,0 +1,34 @@
+{% extends base_template %} {% load static %}
+ {% block extra_css %}
+ <link rel="stylesheet" href="{% static 'css/order_history.css'%}">
+ {% endblock %}
+{% block content %}
+<h2>My Order History 🌸</h2>
+
+<table class="order-table">
+  <tr>
+    <th>Order ID</th>
+    <th>Bouquet</th>
+    <th>Date</th>
+    <th>Total Price</th>
+  </tr>
+  {% for order in orders %}
+    {% for item in order.orderbouquet_set.all %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>
+          {% if item.bouquet %}
+            <a href="{% url 'order_dtail' order.id %}">{{ item.bouquet.name }}</a>
+          {% else %}
+            <span class="deleted">{{item.bouquet_name}}  has been deleted by admin </span>
+          {% endif %}
+        </td>
+        <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+        <td>${{ order.total_price }}</td>
+      </tr>
+    {% endfor %}
+  {% empty %}
+      <tr><td colspan="4">You have no orders yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
