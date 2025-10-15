@@ -1,6 +1,19 @@
-<form method="post">
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Page{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-form">
+  <h2>🧾 Place Your Order</h2>
+  <form method="post">
     {% csrf_token %}
-    <label>Quantity:</label>
-    <input type="number" name="quantity" value="1" min="1">
+    <label for="quantity">Quantity:</label>
+    <input id="quantity" type="number" name="quantity" value="1" min="1">
     <button type="submit">Place Order</button>
-</form>
+  </form>
+</div>
+{% endblock %}

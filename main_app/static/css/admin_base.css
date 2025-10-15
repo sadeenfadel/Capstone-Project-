@@ -27,6 +27,45 @@
   color: #ffe4ec;
 }
 
+.logo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  color: #e91e63;
+  font-weight: bold;
+  margin: 0; 
+}
+.logo a {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* مسافة بين الأيقونة والنص */
+  text-decoration: none;
+  color: #f0eaec;
+  font-weight: bold;
+}
+
+.logo-icon {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+/* Hover effect خفيف على اللوجو */
+.logo a:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+/* Responsive للهواتف */
+@media (max-width: 480px) {
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .logo span {
+    font-size: 1.2rem;
+  }
+}
+
 .admin-avatar {
   width: 35px;
   height: 35px;

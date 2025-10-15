@@ -1,13 +1,138 @@
+/* ---------------------------------- Order History ---------------------------------- */
+
 .deleted {
   color: red;
   font-style: italic;
 }
+
 .order-table {
-  width: 80%;
+  width: 90%;
+  max-width: 1000px;
   margin: 20px auto;
   border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
+
 .order-table th, .order-table td {
-  padding: 10px;
+  padding: 12px 10px;
   border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+}
+
+.order-table th {
+  background-color: #f8f8f8;
+  font-weight: 600;
+}
+
+.order-table td .deleted {
+  display: inline-block;
+}
+
+.btn-details {
+  background-color: #3498db;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.btn-details:hover {
+  background-color: #2c80b4;
+}
+
+button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.pending-msg {
+  color: orange;
+  font-weight: 500;
+}
+
+.confirmed-msg {
+  color: green;
+  font-weight: 500;
+}
+/* ------------------- Heading Center ------------------- */
+h2 {
+  text-align: center;
+  font-size: 22px;
+  margin: 20px 0;
+  color: #444;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 18px;
+  }
+}
+
+/* ------------------- Responsive Styles ------------------- */
+
+@media (max-width: 1024px) {
+  .order-table th, .order-table td {
+    font-size: 14px;
+    padding: 10px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-table {
+    width: 95%;
+    font-size: 14px;
+  }
+
+  .order-table th, .order-table td {
+    padding: 8px 6px;
+    text-align: center;
+  }
+
+  .btn-details, button {
+    padding: 6px 8px;
+    font-size: 13px;
+    display: block;
+    margin: 5px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .order-table th, .order-table td {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+
+  .btn-details, button {
+    width: 90%;
+    font-size: 12px;
+    padding: 5px 8px;
+  }
 }

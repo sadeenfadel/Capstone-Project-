@@ -384,3 +384,34 @@ def remove_bouquet_from_order(request, order_id, bouquet_id):
     order.save()
 
     return redirect('order_dtail', pk=order.id)
+
+
+@login_required
+def edit_bouquet_quantity(request, order_id, bouquet_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order_item = get_object_or_404(OrderBouquet, order=order, bouquet_id=bouquet_id)
+
+    if request.method == "POST":
+        new_quantity = int(request.POST.get("quantity"))
+        if new_quantity > 0:
+            order_item.quantity = new_quantity
+            order_item.save()
+
+            # تحديث السعر الإجمالي للأوردر
+            total = sum(
+                item.bouquet.total_price * item.quantity
+                for item in order.orderbouquet_set.all()
+            )
+            order.total_price = total
+            order.save()
+
+            messages.success(request, f"Quantity updated to {new_quantity}.")
+        else:
+            messages.warning(request, "Quantity must be greater than 0.")
+
+        return redirect("order_dtail", pk=order.id)
+
+    return render(request, "order/edit_quantity.html", {
+        "order_item": order_item,
+        "order": order
+    })

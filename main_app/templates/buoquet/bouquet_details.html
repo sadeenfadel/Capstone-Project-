@@ -36,6 +36,7 @@
   </div>
 {% else %}
   <a href="{% url 'create_order' detail.id %}" class="see-details-btn">Order Now</a>
+    <a href="{% url 'bouquet_list'  %}" class="see-details-btn" style="background-color: gray;">Go Back</a>
 {% endif %}
 
 

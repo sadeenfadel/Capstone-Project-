@@ -1,0 +1,98 @@
+.order-form {
+  max-width: 600px;
+  width: 90%; /* ريسبونسف */
+  margin: 100px auto;
+  background: #fff;
+  padding: 50px 40px;
+  border-radius: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.order-form h2 {
+  color: #e91e63;
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 26px;
+}
+
+.order-form label {
+  display: block;
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.order-form input[type="number"] {
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s ease;
+  margin: 0 auto 25px auto; /* بالنص وتحت label */
+  display: block;
+}
+
+.order-form input[type="number"]:focus {
+  border-color: #e91e63;
+  outline: none;
+}
+
+.order-form button {
+  display: block; /* ضروري ليشتغل margin auto */
+  width: 60%;
+  margin: 0 auto; /* يخلي الزر بالنص */
+  padding: 12px;
+  background: linear-gradient(135deg, #e91e63, #ff4081);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(233, 30, 99, 0.3);
+  font-size: 17px;
+}
+
+.order-form button:hover {
+  background: #fff;
+  color: #e91e63;
+  border: 2px solid #e91e63;
+  transform: translateY(-3px);
+}
+
+/* 🌍 Responsive adjustments */
+@media (max-width: 768px) {
+  .order-form {
+    padding: 35px 25px;
+  }
+
+  .order-form h2 {
+    font-size: 22px;
+  }
+
+  .order-form input[type="number"] {
+    width: 70%;
+  }
+
+  .order-form button {
+    width: 75%;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-form {
+    margin: 60px auto;
+    padding: 30px 20px;
+  }
+
+  .order-form input[type="number"] {
+    width: 90%;
+  }
+
+  .order-form button {
+    width: 85%;
+  }
+}

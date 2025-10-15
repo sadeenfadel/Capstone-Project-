@@ -1,4 +1,4 @@
-{% extends base_template %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block extra_css %}
@@ -12,7 +12,7 @@
   <div class="order-info">
     <p><strong>Placed by:</strong> {{ order.user.username }}</p>
     <p><strong>Date:</strong> {{ order.order_date|date:"Y-m-d H:i" }}</p>
-    <p><strong>Status:</strong> 
+    <p><strong>Status:</strong>
       <span class="status {{ order.status }}">{{ order.status|title }}</span>
     </p>
   </div>
@@ -25,7 +25,7 @@
         <th>Unit Price</th>
         <th>Subtotal</th>
         {% if not request.user.is_superuser %}
-        <th>Action</th> <!-- زر الحذف فقط لليوزر -->
+          <th>Action</th>
         {% endif %}
       </tr>
     </thead>
@@ -39,24 +39,38 @@
             <span class="deleted">{{ item.bouquet_name }} (deleted)</span>
           {% endif %}
         </td>
-        <td>{{ item.quantity }}</td>
+
+        <td>
+          {% if not request.user.is_superuser %}
+          <!-- form تعديل الكمية -->
+          <form action="{% url 'edit_quantity' order.id item.id %}" method="post" class="edit-qty-form">
+            {% csrf_token %}
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity-input">
+          </form>
+          {% else %}
+            {{ item.quantity }}
+          {% endif %}
+        </td>
+
         <td>${{ item.bouquet.total_price|floatformat:2 }}</td>
         <td>${{ item.subtotal|floatformat:2 }}</td>
+
         {% if not request.user.is_superuser %}
-        <td>
-          <a href="{% url 'deleteboq' order.id item.bouquet.id %}" 
-             class="btn-remove"
-             onclick="return confirm('Are you sure you want to remove this bouquet?');">
-             ❌ Remove
-          </a>
+        <td class="action-cell">
+          <a href="{% url 'edit_quantity' order.id item.bouquet.id %}" class="btn-edit">✏️ Edit</a>
+          <a href="{% url 'deleteboq' order.id item.bouquet.id %}" class="btn-remove"
+             onclick="return confirm('Are you sure you want to remove this bouquet?');">❌ Remove</a>
         </td>
         {% endif %}
       </tr>
       {% endfor %}
     </tbody>
+
     <tfoot>
       <tr>
-        <td colspan="{% if request.user.is_superuser %}4{% else %}5{% endif %}" class="total-label">Total:</td>
+        <td colspan="{% if request.user.is_superuser %}4{% else %}5{% endif %}" class="total-label">
+          Total:
+        </td>
         <td class="total-value">${{ order.total_price|floatformat:2 }}</td>
       </tr>
     </tfoot>
@@ -65,9 +79,9 @@
   <div class="order-actions">
     {% if request.user.is_superuser %}
       {% if order.status != "confirmed" %}
-        <form action="{% url 'cancel_order' order.id %}" method="post" style="margin-top:10px;">
+        <form action="{% url 'cancel_order' order.id %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="btn-cancel" 
+          <button type="submit" class="btn-cancel"
                   onclick="return confirm('Are you sure you want to cancel this order?');">
             ❌ Cancel Order
           </button>
@@ -88,10 +102,11 @@
       {% endif %}
     {% endif %}
   </div>
-   {% if request.user.is_superuser %}
-  <a href="{% url 'order_list' %}" class="back-link">← Back to Orders</a>
-   {% else %}
-   <a href="{% url 'order_history' %}" class="back-link">← Back to Orders</a>
-   {% endif %}
+
+  {% if request.user.is_superuser %}
+    <a href="{% url 'order_list' %}" class="back-link">← Back to Orders</a>
+  {% else %}
+    <a href="{% url 'bouquet_list'%}" class="back-link">← Back to Orders</a>
+  {% endif %}
 </div>
 {% endblock %}

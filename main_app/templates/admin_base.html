@@ -6,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Admin Dashboard{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/admin_base.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/logo_2.png' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 
 <nav class="admin-navbar">
-    <div class="logo">🌸 Blossom Admin</div>
-    
+        <div class="logo">
+  <a href="{% url 'home' %}">
+    <img src="{% static 'images/logo_2.png' %}" alt="Logo Icon" class="logo-icon">
+    <span>Blossom Admin</span>
+  </a>
+</div>
     
     <div class="hamburger" onclick="toggleMenu()">
         &#9776;
