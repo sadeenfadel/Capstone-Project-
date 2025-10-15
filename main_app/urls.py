@@ -28,6 +28,8 @@ urlpatterns = [
 
      path('history/', views.order_history , name='order_history'),
      path('oderlist/', views.order_list , name='order_list'),
+     path('order/<int:pk>/cancel/', views.cancel_order, name='cancel_order'),
+
 ]
 
 if settings.DEBUG:

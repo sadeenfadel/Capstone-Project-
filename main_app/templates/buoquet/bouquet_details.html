@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends base_template %}
 {% load static %}
 
 {% block title %}{{ detail.name }} Details{% endblock %}
@@ -28,12 +28,16 @@
       {% endfor %}
     </ul>
 
-    {% if request.user.is_superuser %}
-      <a href="{% url 'edit_bouquet' detail.id %}" class="btn-edit">Edit Bouquet</a>
-      <a href="{% url 'delete_bouquet' detail.id %}" class="btn-delete">Delete Bouquet</a>
-    {% else %}
-      <a href="{% url 'create_order' detail.id %}" class="see-details-btn">Order Now</a>
-    {% endif %}
+{% if request.user.is_superuser %}
+  <div class="admin-buttons">
+    <a href="{% url 'edit_bouquet' detail.id %}" class="btn-edit">Edit Bouquet</a>
+    <a href="{% url 'delete_bouquet' detail.id %}" class="btn-delete">Delete Bouquet</a>
+     <a href="{% url 'bouquet_list'  %}" class="btn-edit">Go Back</a>
+  </div>
+{% else %}
+  <a href="{% url 'create_order' detail.id %}" class="see-details-btn">Order Now</a>
+{% endif %}
+
 
   </div>
 </section>

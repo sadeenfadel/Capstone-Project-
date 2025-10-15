@@ -10,26 +10,36 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="admin-navbar">
-        <div class="logo">🌸 Blossom Admin</div>
-        <ul>
-            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
-        
-            <li><a href="{% url 'bouquet_list' %}">Bouquets</a></li>
-            <li><a href="{% url 'order_list' %}">Orders</a></li>
-            <li>
-                <a href="{% url 'profile' %}">
-                    <img src="{{ user.profile.image.url }}" alt="profile" class="admin-avatar">
-                </a>
-            </li>
-            <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
-        </ul>
-    </nav>
+<nav class="admin-navbar">
+    <div class="logo">🌸 Blossom Admin</div>
+    
+    
+    <div class="hamburger" onclick="toggleMenu()">
+        &#9776;
+    </div>
+
+    <ul id="nav-links">
+        <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'bouquet_list' %}">Bouquets</a></li>
+        <li><a href="{% url 'order_list' %}">Orders</a></li>
+        <li>
+            <a href="{% url 'profile' %}">
+                <img src="{{ user.profile.image.url }}" alt="profile" class="admin-avatar">
+            </a>
+        </li>
+        <li><a href="{% url 'logout' %}" class="logout-btn">Logout</a></li>
+    </ul>
+</nav>
 
     <main>
         {% block content %}{% endblock %}
     </main>
+    <script>
+function toggleMenu() {
+    const nav = document.getElementById("nav-links");
+    nav.classList.toggle("active");
+}
+</script>
 
 </body>
 </html>

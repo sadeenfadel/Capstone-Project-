@@ -1,34 +1,32 @@
-/* ملف: static/css/create_bouquet.css */
 
-/* الحاوية الرئيسية */
 form {
     max-width: 700px;
     margin: 30px auto;
     padding: 25px;
-    background-color: #fff8f0;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #f4f6f8;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     font-family: 'Arial', sans-serif;
 }
 
-/* عنوان الصفحة */
+
 h2 {
     text-align: center;
-    color: #d14f7f;
+    color: #2c3e50; 
     margin-bottom: 25px;
     font-size: 2rem;
 }
 
-/* عنوان قسم الأزهار */
+
 h3 {
     margin-top: 20px;
-    color: #4b2e83;
+    color: #34495e;
     font-size: 1.4rem;
-    border-bottom: 1px solid #e0c6d0;
+    border-bottom: 1px solid #dcdcdc;
     padding-bottom: 5px;
 }
 
-/* حقول الفورم */
+
 form input[type="text"],
 form input[type="number"],
 form input[type="file"],
@@ -43,44 +41,66 @@ form textarea {
     box-sizing: border-box;
 }
 
-/* كل وردة */
+
 .flower-form {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 15px;
-    padding: 10px;
-    border: 1px dashed #d9a5b3;
+    padding: 12px;
+    border: 1px dashed #bdc3c7;
     border-radius: 8px;
-    background-color: #fff0f6;
+    background-color: #ecf0f1;
 }
 
-/* كل عنصر داخل الورد */
 .flower-form label {
     flex: 1 0 100px;
     font-weight: bold;
-    color: #6b1f57;
+    color: #2c3e50;
 }
 
-/* زر الإرسال */
-button[type="submit"] {
+
+button[type="submit"]   {
     display: block;
     width: 100%;
     padding: 12px;
     font-size: 1.2rem;
     color: white;
-    background-color: #d14f7f;
+    background-color: #1e885c; 
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: #b03e65;
+    background-color: #339b7c;
+    transform: scale(1.02);
 }
 
-/* أخطاء الفورم */
+
+a.btn-back {
+    display: block;
+    width: 100%;
+    padding: 12px;          
+    font-size: 1.2rem;       
+    color: white;
+    background-color: #7f8c8d; 
+    border: none;
+    border-radius: 8px;
+    text-align: center;       
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-sizing: border-box;   
+    margin-top: 15px;         
+}
+a.btn-back:hover {
+    background-color: #606f73;
+    transform: scale(1.02);
+}
+
+
 p.errorlist {
     color: red;
     font-size: 0.9rem;
@@ -88,7 +108,7 @@ p.errorlist {
     margin-bottom: 10px;
 }
 
-/* لجعل الفورم مناسب للشاشات الصغيرة */
+
 @media (max-width: 600px) {
     .flower-form {
         flex-direction: column;

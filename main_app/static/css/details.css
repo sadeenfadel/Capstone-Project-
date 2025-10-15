@@ -25,7 +25,7 @@
 
 .details-info {
     max-width: 500px;
-    flex: 1 1 300px; /* يجعل العنصر يتوسع أو ينكمش حسب الشاشة */
+    flex: 1 1 300px;
 }
 
 .details-info h1 {
@@ -58,6 +58,44 @@
     margin-right: 0.5rem;
 }
 
+/* ===== Admin Buttons ===== */
+.admin-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap; /* يسمح بالانخفاض على الشاشات الصغيرة */
+}
+
+.admin-buttons a {
+    flex: 1 1 30%;
+    text-align: center;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    color: #fff;
+}
+
+/* Edit / Go Back Button */
+.admin-buttons .btn-edit {
+    background-color: #3ea57a;
+}
+
+.admin-buttons .btn-edit:hover {
+    background-color: #31d5c7;
+}
+
+/* Delete Button */
+.admin-buttons .btn-delete {
+    background-color: #c9302c;
+}
+
+.admin-buttons .btn-delete:hover {
+    background-color: #d9534f;
+}
+
+/* User Order Button */
 .see-details-btn {
     display: inline-block;
     background-color: #c9302c;
@@ -74,7 +112,7 @@
     background-color: #d9534f;
 }
 
-/* ======= Responsive ======= */
+/* ===== Responsive ===== */
 @media (max-width: 1024px) {
     .details-container {
         gap: 1.5rem;
@@ -101,6 +139,17 @@
     .details-info {
         max-width: 100%;
         text-align: center;
+    }
+
+    /* تجعل الأزرار تحت بعض على الموبايل */
+    .admin-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .admin-buttons a {
+        flex: none;
+        width: 100%;
     }
 }
 

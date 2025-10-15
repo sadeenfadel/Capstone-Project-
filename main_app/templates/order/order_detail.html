@@ -24,7 +24,9 @@
         <th>Quantity</th>
         <th>Unit Price</th>
         <th>Subtotal</th>
-        <th>Action</th> <!-- 🔹 العمود الجديد -->
+        {% if not request.user.is_superuser %}
+        <th>Action</th> <!-- زر الحذف فقط لليوزر -->
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -40,20 +42,21 @@
         <td>{{ item.quantity }}</td>
         <td>${{ item.bouquet.total_price|floatformat:2 }}</td>
         <td>${{ item.subtotal|floatformat:2 }}</td>
+        {% if not request.user.is_superuser %}
         <td>
-          <!-- 🔹 زر الحذف -->
           <a href="{% url 'deleteboq' order.id item.bouquet.id %}" 
              class="btn-remove"
              onclick="return confirm('Are you sure you want to remove this bouquet?');">
              ❌ Remove
           </a>
         </td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="4" class="total-label">Total:</td>
+        <td colspan="{% if request.user.is_superuser %}4{% else %}5{% endif %}" class="total-label">Total:</td>
         <td class="total-value">${{ order.total_price|floatformat:2 }}</td>
       </tr>
     </tfoot>
@@ -61,19 +64,18 @@
 
   <div class="order-actions">
     {% if request.user.is_superuser %}
-      {# --- admin side --- #}
-      {% if order.status == "pending" %}
-        <form action="{% url 'update_order_status' order.id %}" method="post">
+      {% if order.status != "confirmed" %}
+        <form action="{% url 'cancel_order' order.id %}" method="post" style="margin-top:10px;">
           {% csrf_token %}
-          <button type="submit" class="btn-admin">Mark as Ready</button>
+          <button type="submit" class="btn-cancel" 
+                  onclick="return confirm('Are you sure you want to cancel this order?');">
+            ❌ Cancel Order
+          </button>
         </form>
-      {% elif order.status == "ready" %}
-        <p class="ready-msg">✅ This order is ready for pickup.</p>
       {% else %}
         <p>Order already confirmed by user.</p>
       {% endif %}
     {% else %}
-      {# --- user side --- #}
       {% if order.status == "ready" %}
         <form action="{% url 'confirm_order' order.id %}" method="post">
           {% csrf_token %}
@@ -86,7 +88,10 @@
       {% endif %}
     {% endif %}
   </div>
-
-  <a href="{% url 'order_history' %}" class="back-link">← Back to Orders</a>
+   {% if request.user.is_superuser %}
+  <a href="{% url 'order_list' %}" class="back-link">← Back to Orders</a>
+   {% else %}
+   <a href="{% url 'order_history' %}" class="back-link">← Back to Orders</a>
+   {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,162 @@
+/* 🌿 العنوان */
+.page-title {
+  text-align: center;
+  margin: 30px 0;
+  color: #333;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* 🌸 الجدول الأساسي */
+.order-table {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-table th,
+.order-table td {
+  padding: 14px 18px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-table th {
+  background-color: #1e9765;
+  color: white;
+  font-size: 16px;
+}
+
+.order-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.deleted {
+  color: #999;
+  font-style: italic;
+}
+
+/* 🌼 أزرار */
+.btn-view {
+  background: #4ece92;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.btn-view:hover {
+  background: #079992;
+}
+
+.btn-ready {
+  background: #f6b93b;
+  border: none;
+  padding: 6px 14px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.btn-ready:hover {
+  background: #e58e26;
+}
+
+/* 🌿 حالات الطلب */
+.status.ready {
+  color: #f6b93b;
+  font-weight: bold;
+}
+
+.status.confirmed {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-style: italic;
+}
+
+/* 🌷 تصميم الموبايل */
+@media (max-width: 800px) {
+  .order-table {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+
+  .order-table thead {
+    display: none; /* إخفاء رؤوس الأعمدة */
+  }
+
+  .order-table tbody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .order-table tr {
+    display: block;
+    width: 90%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 15px;
+    text-align: left;
+  }
+
+  .order-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+
+  .order-table td:last-child {
+    border-bottom: none;
+  }
+
+  .order-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+  }
+
+  /* 🌸 الأزرار داخل الكروت */
+  .btn-view,
+  .btn-ready {
+    display: inline-block;
+    width: 48%;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  /* 🌿 ترتيب الأزرار داخل كل كارد */
+  .order-table td[data-label="Details"],
+  .order-table td[data-label="Status"] {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .page-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+}

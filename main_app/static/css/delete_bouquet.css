@@ -1,0 +1,80 @@
+/* ===== Delete Bouquet Page ===== */
+.delete-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff8f0;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.delete-container h2 {
+    color: #c9302c;
+    margin-bottom: 1rem;
+}
+
+.delete-container p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.delete-container form {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-delete-confirm,
+.btn-cancel {
+    flex: 1 1 48%;
+    padding: 0.6rem 0;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Delete button */
+.btn-delete-confirm {
+    background-color: #c9302c;
+    color: #fff;
+    border: 1px solid #c9302c;
+}
+
+.btn-delete-confirm:hover {
+    background-color: #d9534f;
+    border-color: #d9534f;
+}
+
+/* Cancel button */
+.btn-cancel {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-cancel:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    .delete-container form {
+        flex-direction: column;
+    }
+
+    .btn-delete-confirm,
+    .btn-cancel {
+        width: 100%;
+        flex: none;
+    }
+}

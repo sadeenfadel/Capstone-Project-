@@ -3,13 +3,24 @@
 
 {% block title %}Edit Bouquet{% endblock %}
 
-{% block content %}
-<h2>Edit Bouquet 🌸</h2>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_bouquet.css' %}">
+{% endblock %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn-submit">Save Changes</button>
-    <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
-</form>
+{% block content %}
+<div class="edit-bouquet-container">
+  <h2>Edit Bouquet 🌸</h2>
+
+  <form method="post" enctype="multipart/form-data" class="edit-form">
+      {% csrf_token %}
+      <div class="form-fields">
+          {{ form.as_p }}
+      </div>
+
+      <div class="form-buttons">
+          <button type="submit" class="btn-submit"> Save Changes</button>
+          <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
+      </div>
+  </form>
+</div>
 {% endblock %}

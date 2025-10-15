@@ -1,4 +1,16 @@
-<table>
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block title %}Admin Orders{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_oredrs.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="page-title">🛒 Orders Management</h2>
+
+<table class="order-table">
   <thead>
     <tr>
       <th>#</th>
@@ -7,42 +19,51 @@
       <th>Total Price</th>
       <th>Order Date</th>
       <th>Details</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
     {% for order in orders %}
-    <tr>
-      <td>{{ forloop.counter }}</td>
-      <td>{{ order.user.username }}</td>
-      <td>
-        {% for item in order.items %}
-          {% if item.bouquet %}
-            {{ item.bouquet.name }} x{{ item.quantity }}<br>
-          {% else %}
-            <span class="deleted">{{ item.bouquet_name }} (Deleted)</span><br>
+      <tr>
+        <td data-label="#">{{ forloop.counter }}</td>
+        <td data-label="User">{{ order.user.username }}</td>
+
+        <td data-label="Bouquets">
+          {% for item in order.items %}
+            {% if item.bouquet %}
+              {{ item.bouquet.name }} ×{{ item.quantity }}<br>
+            {% else %}
+              <span class="deleted">{{ item.bouquet_name }} (Deleted)</span><br>
+            {% endif %}
+          {% endfor %}
+        </td>
+
+        <td data-label="Total Price">${{ order.total_price }}</td>
+        <td data-label="Order Date">{{ order.order_date|date:"Y-m-d H:i" }}</td>
+
+        <td data-label="Details">
+          
+          <a href="{% url 'order_dtail' order.id %}" class="btn-view">View Details</a>   <!-- here we have error beacuse the admin is not the person who made the order -->
+        </td>
+
+        <td data-label="Status">
+          {% if order.status == 'pending' %}
+            <form method="post" action="{% url 'update_order_status' order.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn-ready">Mark Ready</button>
+            </form>
+          {% elif order.status == 'ready' %}
+            <span class="status ready">Ready</span>
+          {% elif order.status == 'confirmed' %}
+            <span class="status confirmed">Confirmed</span>
           {% endif %}
-        {% endfor %}
-      </td>
-      <td>${{ order.total_price }}</td>
-      <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
-      <td>
-        <a href="{% url 'order_dtail' order.id %}" class="btn-view">View Details</a>
-      </td>
-      <td>
-  {% if request.user.is_superuser %}
-    {% if order.status != 'ready' %}
-      <form action="{% url 'update_order_status' order.id %}" method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" class="btn-view">Mark as Ready</button>
-      </form>
-    {% else %}
-      Ready
-    {% endif %}
-  {% else %}
-    {{ order.status }}
-  {% endif %}
-</td>
-    </tr>
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="7" class="empty">No orders found.</td>
+      </tr>
     {% endfor %}
   </tbody>
 </table>
+{% endblock %}

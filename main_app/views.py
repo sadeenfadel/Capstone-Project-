@@ -83,7 +83,9 @@ def bouquet_list(request):
 
 def bouquet_details(request, pk):
     detail = Bouquet.objects.get(id=pk)
-    return render(request, 'buoquet/bouquet_details.html', {'detail': detail})
+    base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
+    
+    return render(request, 'buoquet/bouquet_details.html', {'detail': detail ,  'base_template': base_template} )
 
 def superuser_required(user):
     return user.is_superuser
@@ -288,14 +290,29 @@ def create_order(request , pk):
 
 @login_required
 def order_details(request, pk):
-    order = get_object_or_404(Order,  pk=pk, user=request.user)   # returning the order for specific order and user
-    order_items = order.orderbouquet_set.all()  # جميع البوكيهات داخل الأوردر
+    if request.user.is_superuser:  # making sure its admin
+    
+        order = get_object_or_404(Order, pk=pk)
+    else:
+        # user seeing ite orders
+        order = get_object_or_404(Order, pk=pk, user=request.user)
+
+    order_items = order.orderbouquet_set.all()  # all bouquets inside the order
+
     for item in order_items:
-       item.subtotal = item.bouquet.total_price * item.quantity
+        item.subtotal = item.bouquet.total_price * item.quantity
 
     base_template = 'admin_base.html' if request.user.is_superuser else 'base.html'
-    return render(request, 'order/order_detail.html', {'order': order, 'order_items':order_items , 'base_template': base_template 
-        }) # passing order data
+
+    return render(
+        request,
+        'order/order_detail.html',
+        {
+            'order': order,
+            'order_items': order_items,
+            'base_template': base_template
+        }
+    )
 
 
 @login_required
@@ -335,11 +352,21 @@ def confirm_order(request, pk):
         messages.success(request, "Order confirmed!")
     return redirect('order_history')
 
-def delete_unconfirmed_orders():
-    threshold = timezone.now() - timedelta(hours=48)
-    orders_to_delete = Order.objects.filter(status='ready', order_date__lt=threshold)
-    orders_to_delete.delete()
+# def delete_unconfirmed_orders():     for future
+#     threshold = timezone.now() - timedelta(hours=48)
+#     orders_to_delete = Order.objects.filter(status='ready', order_date__lt=threshold)
+#     orders_to_delete.delete()
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def cancel_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if order.status != "confirmed":  
+        order.delete()
+        messages.success(request, f"Order #{pk} has been canceled.")
+    else:
+        messages.warning(request, "Cannot cancel an order that has been confirmed.")
+    return redirect('order_list')
 
 
 @login_required
