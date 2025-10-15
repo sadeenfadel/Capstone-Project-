@@ -11,8 +11,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404
 from django.forms import modelform_factory
-from django.utils import timezone
-from datetime import timedelta
+# from django.utils import timezone
+# from datetime import timedelta
+from django.forms import modelform_factory, inlineformset_factory
 # ---------------- Public Pages ----------------
 def home(request):
     return render(request, 'home.html')
@@ -128,19 +129,28 @@ def create_bouquet(request):
 @user_passes_test(superuser_required)
 def edit_bouquet(request, pk):
     bouquet = get_object_or_404(Bouquet, pk=pk)
+
+    # فورم البوكيه
     BouquetForm = modelform_factory(Bouquet, fields=['name', 'image'])
-    
+
+    # inline formset للورود
+    FlowerFormSet = inlineformset_factory(Bouquet, BouquetFlower, fields=['flower', 'quantity'], extra=1, can_delete=True)
+
     if request.method == 'POST':
         form = BouquetForm(request.POST, request.FILES, instance=bouquet)
-        if form.is_valid():
+        formset = FlowerFormSet(request.POST, instance=bouquet)
+        if form.is_valid() and formset.is_valid():
             form.save()
-            messages.success(request, "Bouquet updated successfully! 🌸")
+            formset.save()
+            messages.success(request, "Bouquet and flowers updated successfully! 🌸")
             return redirect('bouquet_detail', pk=bouquet.pk)
     else:
         form = BouquetForm(instance=bouquet)
-    
+        formset = FlowerFormSet(instance=bouquet)
+
     return render(request, 'buoquet/edit_bouquet.html', {
         'form': form,
+        'formset': formset,
         'bouquet': bouquet,
         'base_template': 'admin_base.html'
     })

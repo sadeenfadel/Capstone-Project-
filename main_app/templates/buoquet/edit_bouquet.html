@@ -2,25 +2,38 @@
 {% load static %}
 
 {% block title %}Edit Bouquet{% endblock %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/edit_bouquet.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="edit-bouquet-container">
-  <h2>Edit Bouquet 🌸</h2>
+    <h2>Edit Bouquet 🌸</h2>
 
-  <form method="post" enctype="multipart/form-data" class="edit-form">
-      {% csrf_token %}
-      <div class="form-fields">
-          {{ form.as_p }}
-      </div>
+    <form method="post" enctype="multipart/form-data" class="edit-form">
+        {% csrf_token %}
+        <div class="form-fields">
+            <h3>Bouquet Info</h3>
+            {{ form.as_p }}
+        </div>
 
-      <div class="form-buttons">
-          <button type="submit" class="btn-submit"> Save Changes</button>
-          <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
-      </div>
-  </form>
+        <div class="form-flowers">
+            <h3>Flowers in this Bouquet</h3>
+            {{ formset.management_form }}
+            {% for fform in formset %}
+                <div class="flower-item">
+                    {{ fform.id }}
+                    {{ fform.flower.label_tag }} {{ fform.flower }}
+                    {{ fform.quantity.label_tag }} {{ fform.quantity }}
+                 
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn-submit">Save Changes</button>
+            <a href="{% url 'bouquet_detail' bouquet.id %}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

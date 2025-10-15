@@ -122,3 +122,64 @@
         padding: 0.5rem;
     }
 }
+/* === Each Flower Item === */
+.flower-item {
+    border: 1px solid #f0cfc0;
+    padding: 0.8rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background-color: #fff4ec;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Labels inline for flower + quantity */
+.flower-item label {
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+/* Inputs inside flower item */
+.flower-item input,
+.flower-item select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.flower-item input:focus,
+.flower-item select:focus {
+    border-color: #c9302c;
+    box-shadow: 0 0 6px rgba(201,48,44,0.2);
+    outline: none;
+}
+
+/* Delete checkbox styling */
+.flower-item input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+}
+
+.flower-item label[for*="DELETE"] {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: normal;
+}
+
+/* Responsive adjustments for flower items */
+@media (max-width: 600px) {
+    .flower-item {
+        padding: 0.6rem;
+    }
+
+    .flower-item input,
+    .flower-item select {
+        font-size: 0.95rem;
+        padding: 0.45rem;
+    }
+}
+
