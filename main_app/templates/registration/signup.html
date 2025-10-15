@@ -9,11 +9,12 @@
     <h2>Create an Account 🌸</h2>
     <p>Join Waseem Flower Shop and spread the beauty of flowers 🌷</p>
     
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" class="auth-form">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Sign Up</button>
+  <button type="submit" class="btn-submit">Sign Up</button>
 </form>
+
 
 
     <div class="auth-links">

@@ -6,6 +6,7 @@
   min-height: 90vh;
   background-color: #fff8f9;
   padding: 40px 20px;
+  box-sizing: border-box;
 }
 
 /* 🌸 Card container */
@@ -17,6 +18,8 @@
   width: 100%;
   max-width: 420px;
   text-align: center;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 /* 🌿 Headings */
@@ -24,9 +27,10 @@
   color: #49654c;
   font-family: 'Playfair Display', serif;
   margin-bottom: 10px;
+  font-size: 1.8rem;
 }
 
-.auth-card .subtitle {
+.auth-card p {
   color: #777;
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
@@ -39,6 +43,8 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .auth-form p {
@@ -63,6 +69,7 @@
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   transition: 0.3s ease;
+  box-sizing: border-box;
 }
 
 .auth-form input:focus {
@@ -71,9 +78,9 @@
   box-shadow: 0 0 5px rgba(73, 101, 76, 0.3);
 }
 
-/* 🌺 Buttons */
-.submit {
-  background-color: #49654c;
+/* 🌺 Buttons (Login & Sign Up) */
+.btn-submit {
+  background-color: #e75480;  /* نفس اللون للConsistency */
   color: white;
   border: none;
   padding: 12px;
@@ -84,22 +91,26 @@
   transition: 0.3s ease;
   width: 100%;
   margin-top: 10px;
+  box-sizing: border-box;
 }
 
-.submit:hover {
-  background-color: #638b67;
+.btn-submit:hover {
+  background-color: #d6456e;
 }
+
 
 /* 💌 Links */
 .auth-links {
   margin-top: 20px;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 .auth-links a {
   color: #e75480;
   text-decoration: none;
   font-weight: 500;
+  transition: 0.3s ease;
 }
 
 .auth-links a:hover {
@@ -107,28 +118,73 @@
 }
 
 /* 📱 Responsive adjustments */
+@media (max-width: 992px) {
+  .auth-card {
+    max-width: 360px;
+    padding: 35px 25px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.6rem;
+  }
+
+  .auth-form input {
+    padding: 11px;
+    font-size: 0.95rem;
+  }
+
+  .btn-submit {
+    padding: 11px;
+    font-size: 0.95rem;
+  }
+}
+
 @media (max-width: 768px) {
   .auth-card {
-    padding: 30px 25px;
+    max-width: 320px;
+    padding: 30px 20px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.5rem;
   }
 
   .auth-form input {
     padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .btn-submit {
+    padding: 10px;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .auth-card {
     max-width: 90%;
-    padding: 25px 20px;
+    padding: 25px 15px;
   }
 
   .auth-card h2 {
     font-size: 1.4rem;
   }
 
-  .btn {
-    padding: 10px;
-    font-size: 0.95rem;
+  .auth-card p {
+    font-size: 0.9rem;
+  }
+
+  .auth-form input {
+    padding: 9px;
+    font-size: 0.88rem;
+  }
+
+  .btn-submit {
+    padding: 9px;
+    font-size: 0.88rem;
+  }
+
+  .auth-links {
+    font-size: 0.85rem;
   }
 }

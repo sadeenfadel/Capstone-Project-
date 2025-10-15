@@ -14,7 +14,7 @@ img {
 /* -------------------  NAVBAR  ------------------- */
 .navbar {
   display: flex;
-  justify-content: space-between; /* اللوجو على الشمال والروابط على اليمين */
+  justify-content: space-between;
   align-items: center;
   background-color: #ffe4ec;
   padding: 1rem 2rem;
@@ -29,7 +29,39 @@ img {
   font-weight: bold;
   margin: 0; 
 }
+.logo a {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* مسافة بين الأيقونة والنص */
+  text-decoration: none;
+  color: #e91e63;
+  font-weight: bold;
+}
 
+.logo-icon {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+/* Hover effect خفيف على اللوجو */
+.logo a:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+/* Responsive للهواتف */
+@media (max-width: 480px) {
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .logo span {
+    font-size: 1.2rem;
+  }
+}
+
+/* ------------------- NAV LINKS ------------------- */
 .nav-links ul {
   list-style: none;
   display: flex;
@@ -42,14 +74,38 @@ img {
   text-decoration: none;
   color: #444;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
   color: #e91e63;
 }
 
-/* -------------------  MENU TOGGLE  ------------------- */
+/* ------------------- LOGIN & SIGNUP ------------------- */
+.nav-links a.login,
+.nav-links a.signup {
+  background: linear-gradient(135deg, #e91e63, #ff4081);
+  color: #fff !important;
+  font-weight: 600;
+  padding: 6px 18px;  /* أقل شوية من قبل */
+  border-radius: 20px; /* أقل قليلاً */
+  box-shadow: 0 3px 8px rgba(233,30,99,0.25); /* أخف */
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  font-size: 0.9rem; /* أصغر شوي */
+}
+
+.nav-links a.login:hover,
+.nav-links a.signup:hover {
+  background: #fff;
+  color: #e91e63 !important;
+  border: 2px solid #e91e63;
+  transform: translateY(-1px); /* حركة أخف */
+  box-shadow: 0 4px 10px rgba(233,30,99,0.35);
+}
+
+
+/* ------------------- MENU TOGGLE ------------------- */
 .menu-toggle {
   display: none; 
   position: absolute;
@@ -60,7 +116,7 @@ img {
   cursor: pointer;
 }
 
-/* -------------------  HERO SECTION  ------------------- */
+/* ------------------- HERO SECTION ------------------- */
 .hero {
   position: relative;
   height: 100vh;
@@ -99,7 +155,7 @@ img {
   color: #555;
 }
 
-/* -------------------  BUTTONS  ------------------- */
+/* ------------------- BUTTONS ------------------- */
 .btn {
   background-color: #e91e63;
   color: white;
@@ -116,7 +172,7 @@ img {
   background-color: #c2185b;
 }
 
-/* -------------------  ABOUT & CONTACT SECTIONS  ------------------- */
+/* ------------------- ABOUT & CONTACT ------------------- */
 .about, .contact {
   padding: 60px 20px;
   max-width: 700px;
@@ -131,7 +187,7 @@ img {
   margin-bottom: 15px;
 }
 
-/* -------------------  CONTACT FORM  ------------------- */
+/* ------------------- CONTACT FORM ------------------- */
 form {
   display: flex;
   flex-direction: column;
@@ -146,7 +202,7 @@ form input, form textarea {
   width: 100%;
 }
 
-/* -------------------  FOOTER  ------------------- */
+/* ------------------- FOOTER ------------------- */
 footer {
   background-color: #ffe4ec;
   text-align: center;
@@ -156,9 +212,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* -------------------  PROFILE DROPDOWN  ------------------- */
-
-
+/* ------------------- PROFILE DROPDOWN ------------------- */
 .profile-dropdown {
   position: relative;
   display: inline-block;
@@ -178,9 +232,8 @@ footer {
   transform: scale(1.05);
 }
 
-
 .dropdown-menu {
-  display: none !important; /* مخفية من البداية */
+  display: none !important;
   position: absolute;
   right: 0;
   top:50px;
@@ -190,14 +243,13 @@ footer {
   border-radius: 8px;
   overflow: hidden;
   z-index: 1000;
-  flex-direction: column !important; /* إجبار الاتجاه عمودي */
+  flex-direction: column !important;
   animation: fadeIn 0.25s ease-in-out;
 }
 
-/* نتأكد إنها ما تورث أي ستايل من navbar */
 .dropdown-menu ul,
 .dropdown-menu li {
-  all: unset; /* نلغي أي وراثة */
+  all: unset;
   display: block;
 }
 
@@ -215,47 +267,29 @@ footer {
   background-color: #ffe4ec;
 }
 
-/* لما نضغط الصورة بنضيف كلاس show */
 .dropdown-menu.show {
   display: flex !important;
 }
 
-/* أنيميشن ناعمة */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* -------------------  RESPONSIVE DESIGN  ------------------- */
+/* ------------------- RESPONSIVE DESIGN ------------------- */
 
 /* Tablets */
 @media (max-width: 992px) {
-  .overlay h1 {
-    font-size: 2.4rem;
-  }
-
-  .overlay p {
-    font-size: 1rem;
-  }
-
-  .about, .contact {
-    padding: 50px 15px;
-  }
+  .overlay h1 { font-size: 2.4rem; }
+  .overlay p { font-size: 1rem; }
+  .about, .contact { padding: 50px 15px; }
 }
 
 /* Mobile Phones */
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
+  .navbar { flex-direction: column; align-items: center; }
+  .menu-toggle { display: block; }
+  .nav-links { 
     display: none;
     width: 100%;
     text-align: center;
@@ -267,56 +301,19 @@ footer {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     z-index: 999;
   }
-
-  .nav-links.active {
-    display: block;
-  }
-
-  .nav-links ul {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .hero {
-    height: 80vh;
-  }
-
-  .overlay {
-    padding: 25px;
-    border-radius: 15px;
-  }
-
-  .overlay h1 {
-    font-size: 2rem;
-  }
-
-  .overlay p {
-    font-size: 1rem;
-  }
-
-  .btn {
-    padding: 8px 20px;
-    font-size: 0.9rem;
-  }
-
-  footer {
-    font-size: 0.8rem;
-    padding: 15px;
-  }
+  .nav-links.active { display: block; }
+  .nav-links ul { flex-direction: column; gap: 15px; }
+  .hero { height: 80vh; }
+  .overlay { padding: 25px; border-radius: 15px; }
+  .overlay h1 { font-size: 2rem; }
+  .overlay p { font-size: 1rem; }
+  .btn { padding: 8px 20px; font-size: 0.9rem; }
+  footer { font-size: 0.8rem; padding: 15px; }
 }
 
 /* Small Phones */
 @media (max-width: 480px) {
-  .overlay h1 {
-    font-size: 1.6rem;
-  }
-
-  .overlay p {
-    font-size: 0.9rem;
-  }
-
-  .btn {
-    font-size: 0.85rem;
-    padding: 7px 16px;
-  }
+  .overlay h1 { font-size: 1.6rem; }
+  .overlay p { font-size: 0.9rem; }
+  .btn { font-size: 0.85rem; padding: 7px 16px; }
 }

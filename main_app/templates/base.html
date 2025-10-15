@@ -17,13 +17,19 @@
   <body>
     <!--  Navbar -->
     <header class="navbar">
-      <div class="logo">Blossom Boutique  </div>
+     <div class="logo">
+  <a href="{% url 'home' %}">
+    <img src="{% static 'images/logo.png' %}" alt="Logo Icon" class="logo-icon">
+    <span>Blossom Boutique</span>
+  </a>
+</div>
+
       <button class="menu-toggle">☰</button>
       <nav class="nav-links">
         <ul>
           <li><a href="{% url 'home' %}">Home</a></li>
           {% if not user.is_authenticated %}
-          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'login' %}" class="login">Login</a></li>
           {% endif %}
          {% if user.is_authenticated %}
           <li><a href="{% url 'bouquet_list' %}">Bouquets</a></li>      
@@ -41,7 +47,7 @@
       <li><a href="{% url 'logout' %}">Logout</a></li>
     {% endif %}
 {% else %}
-  <li><a href="{% url 'signup' %}">Sign Up</a></li>
+  <li><a href="{% url 'signup' %}" class="signup">Sign Up</a></li>
 {% endif %}
       </ul>
       </nav>
