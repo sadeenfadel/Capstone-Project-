@@ -1,7 +1,7 @@
 # Capstone Project – Blossom Flower Shop Web Application
 
 An elegant and user-friendly web platform for ordering and customizing flower bouquets online.
-
+![ERD Diagram – MVP](home.png)
 ---
 
 ##  1. Project Overview and Description
