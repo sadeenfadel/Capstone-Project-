@@ -1,101 +1,162 @@
-#  Capstone Project – Flower Shop Web Application
+# Capstone Project – Blossom Flower Shop Web Application
 
-An online platform for ordering and customizing bouquets from home.
-
----
-
-## 1. Project Overview and Description
-
-This project is a **Flower Shop Web Application** designed to allow users to order and customize bouquets online.  
-Users can either choose from pre-designed bouquets or create their own arrangements based on their preferences.
-
-**Target Users:**  
-Flower shop customers who want to conveniently order flowers online.
-
-**Project Goal:**  
-To save users’ time by providing a seamless online ordering experience from home,  
-while also offering customization options for their bouquets.
+An elegant and user-friendly web platform for ordering and customizing flower bouquets online.
 
 ---
 
-### Competitive Analysis & Value Proposition
+##  1. Project Overview and Description
 
-While there are several established online flower delivery websites such as 1-800-Flowers, FTD, and ProFlowers,  
-this project offers unique value through:
+**Blossom Flower Shop** is an online flower ordering platform where users can browse, customize, and purchase beautiful bouquets directly from their homes.  
+It offers both ready-made designs and full customization options, allowing users to create personalized floral arrangements with ease.
 
-- **Full Bouquet Customization:** Users can design their bouquets by selecting flower types, colors, and arrangements.
-- **User-Friendly Experience:** A simple, intuitive interface suitable for all ages.
-- **Support for Local Flower Shops:** Helps small or local shops showcase their bouquets online.
-- **Personalized Interaction:** Reviews, ratings, and the ability to share bouquet designs.
-- **Time-Saving Convenience:** Streamlined ordering, payment, and delivery tracking.
+###  Project Goals
+- Provide a seamless online experience for ordering flowers.  
+- Allow customers to customize bouquets by choosing flower types, colors, and quantities.  
+- Enable admins to manage bouquets, orders, and users efficiently.  
+- Support local flower shops in bringing their business online.
 
----
-
-## 2. Tech Stack
-
-**Programming Languages & Frameworks:**
-
-- Python
-- Django (Backend Framework)
-- HTML, CSS (Frontend)
-
-**Database:**
-
-- PostgreSQL
-
-**Tools & Platforms:**
-
-- Git & GitHub (Version Control)
-- Visual Studio Code (IDE)
-
-**Additional Packages (Optional / Future Use):**
-
-- Pillow (for image uploads and processing)
+###  Target Users
+- Flower shop customers who want to buy or customize bouquets online.  
+- Admins who manage shop operations and bouquet listings.
 
 ---
 
-## 3. ERD / Data Model
+## 💻 2. Tech Stack
 
-The application will be developed in **MVP first**, with **strategic features** planned later.  
-
-### 3.1 MVP ERD (Essential Tables)
-![ERD Diagram](MVP.png)
-
-
-### 3.1 STRATEGIC ERD (Essential Tables)
-![ERD Diagram](STRATEGIC.png)
-
-## 4. User Stories / Features
-
-### 4.1 MVP Features (Minimum Viable Product)
-
-**Customer / User Stories**  
-- **Browse Bouquets:** As a customer, I want to browse available bouquets so that I can choose one I like.  
-- **Add to Cart:** As a customer, I want to add bouquets to my cart so that I can review and purchase them later.  
-- **Place Order:** As a customer, I want to place an order online so that I can have the bouquet delivered to my home.  
-- **View Order History:** As a customer, I want to view my order history so that I can track previous purchases.  
-
-**Flower Shop / Vendor User Stories**  
-- **Add Bouquets:** As a vendor, I want to add new bouquets so that customers can see and buy them.  
-- **View Orders:** As a vendor, I want to view incoming orders so that I can prepare and deliver them on time.  
-
-**Admin User Stories**  
-- **Manage Users:** As an admin, I want to manage users (customers and vendors) so that I can maintain control over the platform.  
-
-> **Note:** In the MVP, the **Category** is a field inside Bouquets (choices). Features like Customization, Reviews, Discounts, and Flowers table are reserved for Strategic.
+| Category | Technologies Used |
+|-----------|-------------------|
+| **Frontend** | HTML, CSS |
+| **Backend** | Python, Django |
+| **Database** | PostgreSQL |
+| **Version Control** | Git & GitHub |
+| **IDE** | Visual Studio Code |
+| **Other Tools** | Pillow (for image uploads), Django Admin, Django Templates |
 
 ---
 
-### 4.2 Strategic Features (Future Enhancements)
+##  3. ERD / Data Model
 
-**Customer / User Stories**  
-- **Customize Bouquet:** As a customer, I want to customize a bouquet by selecting individual flowers and colors so that it matches my preferences.  
-- **Write Reviews:** As a customer, I want to write reviews and rate bouquets so that I can share my feedback.  
+The application consists of several core models to handle bouquets, users, and orders.
 
-**Flower Shop / Vendor User Stories**  
-- **Update / Delete Bouquets:** As a vendor, I want to update or delete bouquets so that my offerings are always current.  
-- **View Feedback:** As a vendor, I want to see customer feedback so that I can improve my products.  
-- **Manage Flowers:** As a vendor, I want to add, update, or delete individual flowers so that I can create flexible bouquet options.  
+### **3.1 MVP Data Model**
+![ERD Diagram – MVP](blossom.png)
 
-**Admin User Stories**  
-- **Manage Site Content:** As an admin, I want to manage site content and pages so that the website stays up-to-date.
+
+**Main Tables:**
+
+- **User** → Stores basic user information such as username, email, and password.  
+- **Profile** → Extends the user model with an image and bio for personalization.  
+- **Flower** → Represents individual flowers that can be used in bouquets (name, image, price).  
+- **Bouquet** → Contains bouquet details created by users (name, image, and creator).  
+- **BouquetFlower** → A linking table (many-to-many) connecting bouquets and flowers with a quantity field.  
+- **Order** → Records customer orders including total price, date, and current status (`pending`, `confirmed`, `ready`).  
+- **OrderBouquet** → Links each order with the bouquets included in it, along with quantity and bouquet name (to preserve data if a bouquet is deleted).
+
+---
+
+##  4. User Stories / Features
+
+### **4.1 MVP Features (Minimum Viable Product)**
+
+####  Customer
+- View available bouquets with images and prices.  
+- Add bouquets to an order directly.  
+- Confirm and place orders online.  
+- View order details and track order status (`Pending`, `Ready`, `Confirmed`).  
+- View their order history
+
+####  Admin
+- Add, edit, and delete bouquets (name, image, and price).  
+- Manage orders (update order status: pending → ready → confirmed).  
+- View all user orders and bouquet details.  
+- Maintain system content and user profiles.  
+
+---
+
+### **4.2 Strategic Features (Future Enhancements)**
+
+####  Customer
+- **Create Custom Bouquets:** Choose flowers, colors, and arrangement styles to build a personalized bouquet.  
+- **Add Reviews and Ratings:** Leave feedback on purchased bouquets.  
+- **Track Delivery in Real Time:** Receive live updates for delivery status.  
+
+####  Admin
+- **Manage Users and Vendors:** Add, suspend, or update user profiles.  
+- **Revenue & Analytics Dashboard:** Track sales trends, popular bouquets, and income reports.  
+- **Approve or Reject Reviews:** Maintain content quality.  
+- **Manage Individual Flowers Inventory:** Add or edit flowers for bouquet creation.
+
+---
+
+## ⚙️5. Challenges & Solutions
+
+During the development of the Flower Shop Web Application, several challenges were encountered and successfully addressed:
+
+### 1️⃣ Database Relationships
+**Challenge:**  
+Establishing the correct relationships between models (User, Bouquet, Flower, and Order) using Django’s ORM was initially complex.  
+
+**Solution:**  
+Used `ForeignKey` and `ManyToManyField` with `through` tables (`BouquetFlower` and `OrderBouquet`) to clearly define how bouquets connect to flowers and orders. This ensured accurate data management and flexibility for future customization.
+
+---
+
+### 2️⃣ Image Handling
+**Challenge:**  
+Handling image uploads for bouquets and profiles while keeping the file names unique.  
+
+**Solution:**  
+Integrated **Pillow** for image management and implemented unique filenames using `uuid` or Django’s built-in upload structure to avoid overwriting existing images.
+
+---
+
+### 3️⃣ Dynamic Order Logic
+**Challenge:**  
+Implementing a logical order flow (Pending → Ready → Confirmed) that works seamlessly between customer and admin views.  
+
+**Solution:**  
+Used conditional rendering in templates and clear status management in the `Order` model to ensure smooth updates between states.
+
+---
+
+### 4️⃣ Template & Design Consistency
+**Challenge:**  
+Maintaining consistent layout and responsive design across all templates.  
+
+**Solution:**  
+Created shared base templates and reused common UI components (headers, footers, cards) while adding custom CSS for responsiveness and uniformity.
+
+---
+
+### 5️⃣ Time Management
+**Challenge:**  
+Building the project within a short timeframe (one week) while balancing design, backend, and documentation.  
+
+**Solution:**  
+Followed an MVP-first approach — focusing on core functionality first, then adding polish and enhancements later.
+
+
+##  6. Installation Guide
+
+Follow these steps to set up and run the project locally:
+
+```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/sadeenfadel/Capstone-Project-.git
+cd Capstone-Project-
+
+# 2️⃣ Install dependencies & create virtual environment automatically
+pipenv install django psycopg2 pillow
+
+# 3️⃣ Activate the virtual environment
+pipenv shell
+
+# 4️⃣ Apply database migrations
+python manage.py makemigrations
+python manage.py migrate
+
+# 5️⃣ Create a superuser (for admin access)
+python manage.py createsuperuser
+
+# 6️⃣ Start the development server
+python manage.py runserver
